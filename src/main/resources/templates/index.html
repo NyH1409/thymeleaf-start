@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Hello</title>
+</head>
+<body>
+<form th:action="@{/employees}" th:object="${employee}" method="post">
+    <label>
+        firstName :
+        <input id="firstname" type="text" name="firstName" th:field="*{firstName}"/>
+    </label>
+    <label>
+        lastName:
+        <input id="lastname" type="text" name="lastName" th:field="*{lastName}"/>
+    </label>
+    <button id="create-button">Create</button>
+</form>
+</body>
+</html>
+</DOCTYPE>
