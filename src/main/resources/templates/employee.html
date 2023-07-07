@@ -6,6 +6,7 @@
 </head>
 <body>
     <div th:each="employee : ${employees}">
+        <img alt="Profile" th:src="${employee.getImage()}">
         <p th:text="${employee.firstName}"></p>
         <p th:text="${employee.lastName}"></p>
         <p th:text="${employee.birthDate}"></p>
