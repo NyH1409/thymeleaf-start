@@ -1,10 +1,6 @@
 package com.api.app.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 import java.util.Date;
 
@@ -13,6 +9,7 @@ import java.util.Date;
 @Data
 @ToString
 @EqualsAndHashCode
+@Builder(toBuilder = true)
 public class Employee {
   private String firstName;
   private String lastName;
