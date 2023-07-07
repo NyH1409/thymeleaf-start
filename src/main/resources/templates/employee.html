@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Employee</title>
 </head>
 <body>
     <div th:each="employee : ${employees}">
@@ -10,5 +10,6 @@
         <p th:text="${employee.lastName}"></p>
         <p th:text="${employee.birthDate}"></p>
     </div>
+    <a th:href="@{/}">back</a>
 </body>
 </html>

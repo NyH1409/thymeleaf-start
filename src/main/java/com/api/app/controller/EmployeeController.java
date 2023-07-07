@@ -33,7 +33,6 @@ public class EmployeeController {
     @PostMapping(value = "/employees")
     public String createEmployee(@ModelAttribute Employee employee, Model model) {
         service.createEmployee(employee);
-        model.addAttribute("employees", List.of(employee));
-        return "employee";
+        return "create";
     }
 }
