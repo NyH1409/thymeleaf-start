@@ -1,9 +1,9 @@
 package com.api.app.controller.response;
 
 import lombok.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
-import java.util.Base64;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -16,6 +16,6 @@ public class RestEmployee {
     private String matriculate;
     private String firstName;
     private String lastName;
-    private LocalDate birthDate;
-    private Base64 image;
+    private String birthDate;
+    private MultipartFile image;
 }

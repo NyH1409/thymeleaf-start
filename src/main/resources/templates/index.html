@@ -2,9 +2,57 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Home</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f7f7f7;
+            margin: 0;
+            padding: 20px;
+        }
+
+        form {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            width: 500px;
+            margin: auto;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        input[type="text"],
+        input[type="date"],
+        input[type="file"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            font-size: 14px;
+        }
+
+        button {
+            background-color: #4caf50;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
 </head>
+
 <body>
-<form th:action="@{/employees}" th:object="${employee}" method="post">
+<form th:action="@{/employees}" th:object="${employee}" method="post" enctype="multipart/form-data">
     <label>
         firstName :
         <input id="firstname" type="text" name="firstName" th:field="*{firstName}"/>
@@ -12,6 +60,14 @@
     <label>
         lastName:
         <input id="lastname" type="text" name="lastName" th:field="*{lastName}"/>
+    </label>
+    <label>
+        birthDate:
+        <input id="birthdate" type="date" name="birthdate" th:field="*{birthDate}"/>
+    </label>
+    <label>
+        Profile pic:
+        <input id="profile-image" type="file" accept="image/*" name="image" th:field="*{image}"/>
     </label>
     <button id="create-button">Create</button>
 </form>
