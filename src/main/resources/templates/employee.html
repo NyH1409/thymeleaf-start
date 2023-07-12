@@ -3,13 +3,58 @@
 <head>
     <meta charset="UTF-8">
     <title>Employee</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f7f7f7;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .employee-container {
+            background-color: #fff;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+        }
+
+        .employee-container img {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            margin-right: 20px;
+        }
+
+        .employee-info p {
+            margin: 5px 0;
+            font-size: 16px;
+        }
+
+        a {
+            display: inline-block;
+            margin-top: 20px;
+            color: #007bff;
+            text-decoration: none;
+            font-size: 16px;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
 <body>
-    <div th:each="employee : ${employees}">
-        <img alt="Profile" th:src="${employee.getImage()}">
-        <p th:text="${employee.firstName}"></p>
-        <p th:text="${employee.lastName}"></p>
-        <p th:text="${employee.birthDate}"></p>
+    <div class="employee-container" th:each="employee : ${employees}">
+        <img alt="Profile" th:src="'data:image/jpeg;base64,'+${employee.getImage()}">
+       <div class="employee-info">
+           <p>Matricule : <span th:text="${employee.matriculate}"></span> </p>
+           <p>Nom : <span th:text="${employee.firstName}"></span></p>
+           <p>Prénoms : <span th:text="${employee.lastName}"></span></spa></p>
+           <p>Date de naissance : <span th:text="${employee.birthDate}"></span></p>
+       </div>
     </div>
     <a th:href="@{/}">back</a>
 </body>

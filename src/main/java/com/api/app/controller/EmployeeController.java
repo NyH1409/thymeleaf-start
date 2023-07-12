@@ -11,10 +11,9 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.servlet.view.RedirectView;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Controller
 @AllArgsConstructor
@@ -24,23 +23,21 @@ public class EmployeeController {
 
     @GetMapping("/")
     public String home(Model model) {
-        model.addAttribute("employee", new Employee());
+        model.addAttribute("employee", new RestEmployee());
         return "index";
     }
 
     @GetMapping("/employees")
     public String getEmployees(ModelMap model) {
-        List<RestEmployee> employees = service.getEmployees()
-                .stream()
-                .map(mapper::toRest)
-                .collect(Collectors.toList());
+        List<Employee> employees = service.getEmployees();
         model.addAttribute("employees", employees);
         return "employee";
     }
 
     @PostMapping(value = "/employees")
-    public String createEmployee(@ModelAttribute Employee employee, Model model) {
-        service.createEmployee(employee);
-        return "create";
+    public RedirectView createEmployee(@ModelAttribute RestEmployee employee, Model model) {
+        Employee domain = service.createEmployee(mapper.toDomain(employee));
+        model.addAttribute("employees", List.of(domain));
+        return new RedirectView("/employees");
     }
 }
