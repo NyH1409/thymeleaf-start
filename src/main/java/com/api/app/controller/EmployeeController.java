@@ -8,12 +8,12 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.view.RedirectView;
 
+import java.io.IOException;
+import java.util.Base64;
 import java.util.List;
 
 @Controller
@@ -25,6 +25,11 @@ public class EmployeeController {
     @GetMapping("/create")
     public String createPage(Model model) {
         model.addAttribute("employee", new RestEmployee());
+        return "create";
+    }
+
+    @GetMapping("/error")
+    public String errorPage() {
         return "create";
     }
 
@@ -44,8 +49,22 @@ public class EmployeeController {
 
     @PostMapping(value = "/employees")
     public RedirectView createEmployee(@ModelAttribute RestEmployee employee, Model model) {
-        Employee domain = service.createEmployee(mapper.toDomain(employee));
+        Employee domain = service.crupdateEmployee(mapper.toDomain(employee));
         model.addAttribute("employees", List.of(domain));
+        return new RedirectView("/");
+    }
+
+    @PostMapping(value = "/employee/{id}")
+    public RedirectView updateEmployee(@PathVariable("id") String employeeId,
+                                       @RequestParam("photo") MultipartFile multipartFile) {
+        Employee toUpdate = service.getEmployee(employeeId);
+        try {
+            service.crupdateEmployee(toUpdate.toBuilder()
+                    .image(Base64.getEncoder()
+                            .encodeToString(multipartFile.getBytes())).build());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
         return new RedirectView("/");
     }
 }

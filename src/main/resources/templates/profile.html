@@ -55,6 +55,7 @@
         </div>
         <div th:unless="${employee.image != ''}">
             <p>Aucune image</p>
+            <form th:action="@{'/employee/'+${employee.id}}" method="post" enctype="multipart/form-data"><input type="file" name="photo"/> <button>Ajouter une photo</button></form>
         </div>
        <div class="employee-info">
            <p>Matricule : <span th:text="${employee.matriculate}"></span> </p>
