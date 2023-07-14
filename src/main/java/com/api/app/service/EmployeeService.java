@@ -21,6 +21,11 @@ public class EmployeeService {
                 .collect(Collectors.toList());
     }
 
+    public Employee getEmployee(String id) {
+        return repository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Employee not found"));
+    }
+
     public Employee createEmployee(Employee employee) {
         return repository.save(employee);
     }

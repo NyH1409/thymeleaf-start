@@ -13,8 +13,9 @@
 
         .employee-container {
             background-color: #fff;
+            width: 500px;
             padding: 20px;
-            margin-bottom: 20px;
+            margin: auto;
             border-radius: 5px;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
             display: flex;
@@ -47,15 +48,20 @@
     </style>
 </head>
 <body>
-    <div class="employee-container" th:each="employee : ${employees}">
-        <img alt="Profile" th:src="'data:image/jpeg;base64,'+${employee.getImage()}">
+    <a th:href="@{'/'}">Back</a>
+    <div class="employee-container">
+        <div th:if="${employee.image != ''}">
+            <img alt="Profile" th:src="'data:image/jpeg;base64,'+${employee.getImage()}">
+        </div>
+        <div th:unless="${employee.image != ''}">
+            <p>Aucune image</p>
+        </div>
        <div class="employee-info">
            <p>Matricule : <span th:text="${employee.matriculate}"></span> </p>
            <p>Nom : <span th:text="${employee.firstName}"></span></p>
-           <p>Prénoms : <span th:text="${employee.lastName}"></span></spa></p>
+           <p>Prénoms : <span th:text="${employee.lastName}"></span></p>
            <p>Date de naissance : <span th:text="${employee.birthDate}"></span></p>
        </div>
     </div>
-    <a th:href="@{/}">back</a>
 </body>
 </html>
