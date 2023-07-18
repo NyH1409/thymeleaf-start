@@ -69,6 +69,63 @@
         Photo de profile:
         <input id="profile-image" type="file" accept="image/*" name="image" th:field="*{image}"/>
     </label>
+    <label>
+        Telephone:
+        <input id="telephone" type="tel" name="telephone" th:field="*{phoneNumber.phoneNumber}"/>
+    </label>
+    <label>
+        Email personnel:
+        <input id="email-perso" type="email" name="email-perso" th:field="*{emailPerso}"/>
+    </label>
+    <label>
+        Email professionnel:
+        <input id="email-pro" type="email" name="email-pro" th:field="*{emailPro}"/>
+    </label>
+    <label>
+        Nombre d'enfants:
+        <input id="children" type="number" name="children" th:field="*{children}"/>
+    </label>
+    <label>
+        Numero CNAPS:
+        <input id="cnaps" type="text" name="cnaps" th:field="*{cnaps}"/>
+    </label>
+    <label>
+        Sexe:
+        <select th:field="*{sex}">
+            <option th:value="H">H</option>
+            <option th:value="F">F</option>
+        </select>
+    </label>
+    <label>
+        Numero CIN:
+        <input id="num-cin" type="number" name="birthdate" th:field="*{nic.number}"/>
+    </label>
+    <label>
+        Date de delivrance:
+        <input id="deliverdate" type="date" name="birthdate" th:field="*{nic.deliverDate}"/>
+    </label>
+    <label>
+        Lieu de delivrance:
+        <input id="deliveraddress" type="text" name="birthdate" th:field="*{nic.deliverAddress}"/>
+    </label>
+    <label>
+        Categorie Socio-professionnel:
+        <select th:field="*{category}">
+            <option th:value="M1">M1</option>
+            <option th:value="M2">M2</option>
+            <option th:value="OS1">OS1</option>
+            <option th:value="OS2">OS2</option>
+            <option th:value="OS3">OS3</option>
+            <option th:value="OP1">OP1</option>
+        </select>
+    </label>
+    <label>
+        Fonction:
+        <select th:field="*{job.job}">
+            <option th:value="Developpeur">Developpeur</option>
+            <option th:value="Directeur">Directeur</option>
+        </select>
+    </label>
     <button id="create-button">Créer</button>
 </form>
 </body>

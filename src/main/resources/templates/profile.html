@@ -13,20 +13,19 @@
 
         .employee-container {
             background-color: #fff;
-            width: 500px;
+            width: 800px;
             padding: 20px;
             margin: auto;
             border-radius: 5px;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
             display: flex;
             align-items: center;
+            justify-content: space-between;
         }
 
         .employee-container img {
-            width: 100px;
-            height: 100px;
-            border-radius: 50%;
-            margin-right: 20px;
+            width: 300px;
+            height: 100%;
         }
 
         .employee-info p {
@@ -58,10 +57,20 @@
             <form th:action="@{'/employee/'+${employee.id}}" method="post" enctype="multipart/form-data"><input type="file" name="photo"/> <button>Ajouter une photo</button></form>
         </div>
        <div class="employee-info">
-           <p>Matricule : <span th:text="${employee.matriculate}"></span> </p>
-           <p>Nom : <span th:text="${employee.firstName}"></span></p>
-           <p>Prénoms : <span th:text="${employee.lastName}"></span></p>
-           <p>Date de naissance : <span th:text="${employee.birthDate}"></span></p>
+           <p><strong>Matricule :</strong> <span th:text="${employee.matriculate}"></span> </p>
+           <p><strong>Nom :</strong> <span th:text="${employee.firstName}"></span></p>
+           <p><strong>Prénoms :</strong> <span th:text="${employee.lastName}"></span></p>
+           <p><strong>Date de naissance :</strong> <span th:text="${employee.birthDate}"></span></p>
+           <p><strong>Sexe :</strong> <span th:text="${employee.sex}"></span></p>
+           <p><strong>Nombre d'enfants :</strong> <span th:text="${employee.children}"></span></p>
+           <p><strong>Numero CIN :</strong> <span th:text="${employee.nic.number}"></span></p>
+           <p><strong>Date de delivrance :</strong> <span th:text="${employee.nic.deliverDate}"></span></p>
+           <p><strong>Lieu de delivrance :</strong> <span th:text="${employee.nic.deliverAddress}"></span></p>
+           <p><strong>Email personnel :</strong> <span th:text="${employee.emailPerso}"></span></p>
+           <p><strong>Email professionnel :</strong> <span th:text="${employee.emailPro}"></span></p>
+           <p><strong>Fonction :</strong> <span th:text="${employee.job.job}"></span></p>
+           <p><strong>Categorie :</strong> <span th:text="${employee.category}"></span></p>
+           <p><strong>Numero CNAPS :</strong> <span th:text="${employee.cnaps}"></span></p>
        </div>
     </div>
 </body>
