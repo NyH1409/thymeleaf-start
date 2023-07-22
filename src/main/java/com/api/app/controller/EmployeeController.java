@@ -1,6 +1,7 @@
 package com.api.app.controller;
 
 import com.api.app.controller.response.ModelEmployee;
+import com.api.app.controller.response.ModelToCSV;
 import com.api.app.model.Employee;
 import com.api.app.model.mapper.EmployeeMapper;
 import com.api.app.service.EmployeeService;
@@ -8,14 +9,11 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.view.RedirectView;
 
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Base64;
 import java.util.List;
@@ -35,7 +33,9 @@ public class EmployeeController {
     @GetMapping("/")
     public String getEmployees(ModelMap model) {
         List<Employee> employees = service.getEmployees();
+        ModelToCSV modelToCSV = new ModelToCSV(employees);
         model.addAttribute("employees", employees);
+        model.addAttribute("modelToCSV", modelToCSV);
         return "index";
     }
 
@@ -47,10 +47,14 @@ public class EmployeeController {
     }
 
     @PostMapping(value = "/employees")
-    public RedirectView createEmployee(@ModelAttribute ModelEmployee employee, Model model) {
-        System.out.println(employee);
-        Employee domain = service.crupdateEmployee(mapper.toDomain(employee));
-        model.addAttribute("employees", List.of(domain));
+    public RedirectView createEmployee(@ModelAttribute ModelEmployee employee) {
+        service.crupdateEmployee(mapper.toDomain(employee));
+        return new RedirectView("/");
+    }
+
+    @PostMapping(value = "/employees/raw")
+    public RedirectView generateCSV(@ModelAttribute ModelToCSV modelToCSV, HttpServletResponse response) {
+        service.generateCSV(modelToCSV.getEmployees(), response);
         return new RedirectView("/");
     }
 

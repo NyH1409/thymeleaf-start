@@ -61,5 +61,11 @@
        </div>
         <a th:href="@{'/employees/'+${employee.id}}">Show profile</a>
     </div>
+    <form th:action="${'/employees/raw'}" method="post" th:object="${modelToCSV}" enctype="multipart/form-data">
+        <label>
+            <input type="text" th:value="${modelToCSV.employees}" th:field="${modelToCSV.employees}" hidden/>
+        </label>
+        <button>Export</button>
+    </form>
 </body>
 </html>
