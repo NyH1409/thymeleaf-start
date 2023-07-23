@@ -57,6 +57,7 @@
     </style>
 </head>
 <body>
+<div th:insert="header.html::header"></div>
 <div>
     <div class="employee-container">
         <div th:if="${employee.image != ''}">
@@ -87,5 +88,6 @@
         <button style="background-color: red"><a th:href="@{'/employees/'+${employee.id}+'/edit'}">Editer</a></button>
     </div>
 </div>
+<div th:insert="header.html::footer"></div>
 </body>
 </html>

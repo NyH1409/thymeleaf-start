@@ -2,8 +2,10 @@ package com.api.app.controller;
 
 import com.api.app.controller.response.ModelEmployee;
 import com.api.app.controller.response.ModelToCSV;
+import com.api.app.model.Company;
 import com.api.app.model.Employee;
 import com.api.app.model.mapper.EmployeeMapper;
+import com.api.app.service.CompanyService;
 import com.api.app.service.EmployeeService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -24,10 +26,13 @@ import java.util.List;
 public class EmployeeController {
     private final EmployeeService service;
     private final EmployeeMapper mapper;
+    private final CompanyService companyService;
 
     @GetMapping("/create")
     public String createPage(Model model) {
         model.addAttribute("employee", new ModelEmployee());
+        List<Company> companies = companyService.getCompanies();
+        model.addAttribute("company", companies.get(0));
         return "create";
     }
 
@@ -46,7 +51,9 @@ public class EmployeeController {
                                ) {
         List<Employee> employees = service.getEmployees(
           fistName, lastName, sex, job, firstNameOrder, lastNameOrder, sexOrder, jobOrder, page, pageSize);
+        List<Company> companies = companyService.getCompanies();
         ModelToCSV modelToCSV = new ModelToCSV(employees);
+        model.addAttribute("company", companies.get(0));
         model.addAttribute("employees", employees);
         model.addAttribute("modelToCSV", modelToCSV);
         return "index";
@@ -55,6 +62,8 @@ public class EmployeeController {
     @GetMapping("/employees/{id}")
     public String getEmployee(ModelMap model, @PathVariable("id") String employeeId) {
         Employee employee = service.getEmployee(employeeId);
+        List<Company> companies = companyService.getCompanies();
+        model.addAttribute("company", companies.get(0));
         model.addAttribute("employee", employee);
         return "profile";
     }
@@ -63,6 +72,8 @@ public class EmployeeController {
     public String updateEmployee(ModelMap model, @PathVariable("id") String employeeId) {
         Employee employee = service.getEmployee(employeeId);
         ModelEmployee modelEmployee = mapper.toRest(employee);
+        List<Company> companies = companyService.getCompanies();
+        model.addAttribute("company", companies.get(0));
         model.addAttribute("employee", employee);
         model.addAttribute("modelEmployee", modelEmployee);
         return "edit";

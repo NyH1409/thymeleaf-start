@@ -68,6 +68,7 @@
     </style>
 </head>
 <body>
+    <div th:insert="header.html::header"></div>
     <form method="get" th:action="@{/}">
         <div style="display: flex; justify-content: space-between">
             <label>
@@ -126,8 +127,8 @@
                     <option th:value="DESC">Decroissant</option>
                 </select>
             </label>
+            <button style="background-color: #007bff">Filtrer</button>
         </div>
-        <button>Filtrer</button>
     </form>
     <div class="employee-container" th:each="employee : ${employees}">
         <div th:if="${employee.image != ''}">
@@ -153,5 +154,6 @@
             <button style="background-color: red">Exporter</button>
         </form>
     </div>
+    <div th:insert="header::footer"></div>
 </body>
 </html>

@@ -59,6 +59,7 @@
 </head>
 
 <body>
+<div th:insert="header.html::header"></div>
 <form th:action="@{/employees}" th:object="${employee}" method="post" enctype="multipart/form-data">
     <label>
         Prénom(s) :
@@ -138,6 +139,7 @@
         <button id="cancel-button" type="button" style="background-color: red"><a th:href="@{/}">Annuler</a></button>
     </div>
 </form>
+<div th:insert="header.html::footer"></div>
 </body>
 </html>
 </DOCTYPE>

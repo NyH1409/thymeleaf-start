@@ -61,6 +61,7 @@
 </head>
 
 <body>
+<div th:insert="header.html::header"></div>
 <form th:action="@{'/employees/'+${employee.id}}" th:object="${modelEmployee}" method="post" enctype="multipart/form-data">
     <div style="text-align: center; margin: auto">
         <label th:if="${employee.image != null}">
@@ -149,6 +150,7 @@
         <button type="button" style="background-color: red" id="cancel-button"><a th:href="@{/}">Annuler</a></button>
     </div>
 </form>
+<div th:insert="header.html::footer"></div>
 </body>
 </html>
 </DOCTYPE>
