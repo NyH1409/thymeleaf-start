@@ -3,6 +3,7 @@ package com.api.app.repository.dao;
 import com.api.app.model.Employee;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.query.QueryUtils;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -44,7 +45,7 @@ public class EmployeeDao {
         criteria.like(root.get("lastName"), '%' + lastName + '%')
       ));
     }
-    if (sex != null) {
+    /*if (sex != null) {
       predicates.add(criteria.or(
         criteria.like(criteria.lower(root.get("sex")), '%' + sex.toLowerCase() + '%'),
         criteria.like(root.get("sex"), '%' + sex + '%')
@@ -55,7 +56,7 @@ public class EmployeeDao {
         criteria.like(criteria.lower(root.get("job").get("job")), '%' + job.toLowerCase() + '%'),
         criteria.like(root.get("job").get("job"), '%' + job + '%')
       ));
-    }
+    }*/
 
     List<Order> orders = new ArrayList<>();
     if (firstNameOrder != null) {
@@ -70,8 +71,13 @@ public class EmployeeDao {
     if (jobOrder != null) {
       orders.add(geOrder(root, criteria, jobOrder, "job"));
     }
-
-    query.where(predicates.toArray(new Predicate[0])).orderBy(orders);
+    Predicate[] predicatesArray = new Predicate[predicates.size()];
+    query.where(predicates.toArray(predicatesArray));
+    if (orders.isEmpty()) {
+      query.orderBy(QueryUtils.toOrders(pageable.getSort(), root, criteria));
+    } else {
+      query.orderBy(orders);
+    }
 
     return entityManager.createQuery(query)
       .setFirstResult(pageable.getPageNumber() * pageable.getPageSize())
@@ -80,7 +86,7 @@ public class EmployeeDao {
   }
 
   private Order geOrder(Root<Employee> root, CriteriaBuilder builder, String order, String property) {
-    if (order.isEmpty()) {
+    if (order == null || order.isEmpty()) {
       return null;
     }
     if (order.equalsIgnoreCase("ASC")) {

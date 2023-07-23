@@ -72,36 +72,40 @@
         </label>
     </div>
     <label>
+        Matricule :
+        <input id="matriculate" th:placeholder="${employee.matriculate}" th:value="${modelEmployee.getMatriculate()}" type="text" name="firstName" th:field="*{matriculate}" hidden/>
+    </label>
+    <label>
         Prénom(s) :
-        <input id="firstname" th:placeholder="${employee.firstName}" th:value="${employee.getFirstName()}" type="text" name="firstName" th:field="*{firstName}"/>
+        <input id="firstname" th:placeholder="${employee.firstName}" th:value="${modelEmployee.getFirstName()}" type="text" name="firstName" th:field="*{firstName}"/>
     </label>
     <label>
         Nom:
-        <input id="lastname" th:placeholder="${employee.lastName}" th:value="${employee.getLastName()}" type="text" name="lastName" th:field="*{lastName}"/>
+        <input id="lastname" th:placeholder="${employee.lastName}" th:value="${modelEmployee.getLastName()}" type="text" name="lastName" th:field="*{lastName}"/>
     </label>
     <label>
         Date de naissance:
-        <input id="birthdate" th:placeholder="${employee.birthDate}" th:value="${employee.getBirthDate()}" type="date" name="birthdate" th:field="*{birthDate}"/>
+        <input id="birthdate" th:placeholder="${employee.birthDate}" th:value="${modelEmployee.getBirthDate()}" type="date" name="birthdate" th:field="*{birthDate}"/>
     </label>
     <label>
         Telephone:
-        <input th:value="${employee.getPhoneNumbers()}" th:placeholder="${employee.phoneNumbers.get(0).phoneNumber}" id="telephone" type="tel" name="telephone" th:field="*{phoneNumber.phoneNumber}"/>
+        <input th:value="${modelEmployee.phoneNumber.phoneNumber}" th:placeholder="${modelEmployee.getPhoneNumber().phoneNumber}" id="telephone" type="tel" name="telephone" th:field="*{phoneNumber.phoneNumber}"/>
     </label>
     <label>
         Email personnel:
-        <input id="email-perso" th:placeholder="${employee.emailPerso}" th:value="${employee.getEmailPerso()}" type="email" name="email-perso" th:field="*{emailPerso}"/>
+        <input id="email-perso" th:placeholder="${employee.emailPerso}" th:value="${modelEmployee.getEmailPerso()}" type="email" name="email-perso" th:field="*{emailPerso}"/>
     </label>
     <label>
         Email professionnel:
-        <input id="email-pro" th:placeholder="${employee.emailPro}" th:value="${employee.getEmailPro()}" type="email" name="email-pro" th:field="*{emailPro}"/>
+        <input id="email-pro" th:placeholder="${employee.emailPro}" th:value="${modelEmployee.getEmailPro()}" type="email" name="email-pro" th:field="*{emailPro}"/>
     </label>
     <label>
         Nombre d'enfants:
-        <input id="children" th:placeholder="${employee.children}" th:value="${employee.getChildren()}" type="number" name="children" th:field="*{children}"/>
+        <input id="children" th:placeholder="${employee.children}" th:value="${modelEmployee.getChildren()}" type="number" name="children" th:field="*{children}"/>
     </label>
     <label>
         Numero CNAPS:
-        <input id="cnaps" th:placeholder="${employee.cnaps}" type="text" th:value="${employee.getCnaps()}" name="cnaps" th:field="*{cnaps}"/>
+        <input id="cnaps" th:placeholder="${employee.cnaps}" type="text" th:value="${modelEmployee.getCnaps()}" name="cnaps" th:field="*{cnaps}"/>
     </label>
     <label>
         Sexe:
@@ -112,19 +116,19 @@
     </label>
     <label>
         Numero CIN:
-        <input id="num-cin" th:placeholder="${employee.nic.number}" type="number" name="birthdate" th:field="*{nic.number}" th:value="${employee.getNic().getNumber()}"/>
+        <input id="num-cin" th:placeholder="${employee.nic.number}" type="number" name="birthdate" th:field="*{nic.number}" th:value="${modelEmployee.getNic().getNumber()}"/>
     </label>
     <label>
         Date de delivrance:
-        <input id="deliverdate" type="date" th:placeholder="${employee.nic.deliverDate}" name="birthdate" th:field="*{nic.deliverDate}" th:value="${employee.nic.deliverDate}"/>
+        <input id="deliverdate" type="date" th:placeholder="${employee.nic.deliverDate}" name="birthdate" th:field="*{nic.deliverDate}" th:value="${modelEmployee.nic.deliverDate}"/>
     </label>
     <label>
         Lieu de delivrance:
-        <input id="deliveraddress" type="text" name="birthdate" th:placeholder="${employee.nic.deliverAddress}" th:field="*{nic.deliverAddress}" th:value="${employee.nic.deliverAddress}"/>
+        <input id="deliveraddress" type="text" name="birthdate" th:placeholder="${employee.nic.deliverAddress}" th:field="*{nic.deliverAddress}" th:value="${modelEmployee.nic.deliverAddress}"/>
     </label>
     <label>
         Categorie Socio-professionnel:
-        <select th:field="*{category}" th:value="${employee.category}">
+        <select th:field="*{category}" th:value="${modelEmployee.category}">
             <option th:value="M1">M1</option>
             <option th:value="M2">M2</option>
             <option th:value="OS1">OS1</option>
@@ -135,7 +139,7 @@
     </label>
     <label>
         Fonction:
-        <select th:field="*{job.job}" th:value="${employee.job.job}">
+        <select th:field="*{job.job}" th:value="${modelEmployee.job.job}">
             <option th:value="Developpeur">Developpeur</option>
             <option th:value="Directeur">Directeur</option>
         </select>

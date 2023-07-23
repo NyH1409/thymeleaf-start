@@ -9,15 +9,15 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.view.RedirectView;
 
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.util.Base64;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Controller
 @AllArgsConstructor
@@ -32,8 +32,20 @@ public class EmployeeController {
     }
 
     @GetMapping("/")
-    public String getEmployees(ModelMap model) {
-        List<Employee> employees = service.getEmployees();
+    public String getEmployees(ModelMap model,
+                               @RequestParam(value = "firstName", required = false) String fistName,
+                               @RequestParam(value = "lastName", required = false) String lastName,
+                               @RequestParam(value = "sex", required = false) String sex,
+                               @RequestParam(value = "job", required = false) String job,
+                               @RequestParam(value = "firstNameOrder", required = false) String firstNameOrder,
+                               @RequestParam(value = "lastNameOrder", required = false) String lastNameOrder,
+                               @RequestParam(value = "sexOrder", required = false) String sexOrder,
+                               @RequestParam(value = "jobOrder", required = false) String jobOrder,
+                               @RequestParam(value = "page", required = false) Integer page,
+                               @RequestParam(value = "pageSize", required = false) Integer pageSize
+                               ) {
+        List<Employee> employees = service.getEmployees(
+          fistName, lastName, sex, job, firstNameOrder, lastNameOrder, sexOrder, jobOrder, page, pageSize);
         ModelToCSV modelToCSV = new ModelToCSV(employees);
         model.addAttribute("employees", employees);
         model.addAttribute("modelToCSV", modelToCSV);
@@ -50,7 +62,7 @@ public class EmployeeController {
     @GetMapping("/employees/{id}/edit")
     public String updateEmployee(ModelMap model, @PathVariable("id") String employeeId) {
         Employee employee = service.getEmployee(employeeId);
-        ModelEmployee modelEmployee = new ModelEmployee();
+        ModelEmployee modelEmployee = mapper.toRest(employee);
         model.addAttribute("employee", employee);
         model.addAttribute("modelEmployee", modelEmployee);
         return "edit";

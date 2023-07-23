@@ -51,9 +51,84 @@
         button:hover {
             background-color: #45a049;
         }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        input, select, option {
+            width: 200px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            font-size: 14px;
+        }
     </style>
 </head>
 <body>
+    <form method="get" th:action="@{/}">
+        <div style="display: flex; justify-content: space-between">
+            <label>
+                Prénom(s):
+                <input type="text" name="firstName">
+            </label>
+            <label>
+                Nom:
+                <input type="text" name="lastName">
+            </label>
+            <label>
+                Sexe:
+                <select name="sex">
+                    <option th:value="H">Homme</option>
+                    <option th:value="F">Femme</option>
+                </select>
+            </label>
+            <label>
+                Fonction:
+                <select name="job">
+                    <option th:value="M1">M1</option>
+                    <option th:value="M2">M2</option>
+                    <option th:value="OS1">OS1</option>
+                    <option th:value="OS2">OS2</option>
+                    <option th:value="OS3">OS3</option>
+                    <option th:value="OP1">OP1</option>
+                </select>
+            </label>
+        </div>
+        <div style="display: flex; justify-content: space-between">
+            <label>
+                Ordre (Prenom):
+                <select name="firstNameOrder">
+                    <option th:value="ASC">Croissant</option>
+                    <option th:value="DESC">Decroissant</option>
+                </select>
+            </label>
+            <label>
+                Ordre (Nom):
+                <select name="lastNameOrder">
+                    <option th:value="ASC">Croissant</option>
+                    <option th:value="DESC">Decroissant</option>
+                </select>
+            </label>
+            <label>
+                Ordre (sexe):
+                <select name="sexOrder">
+                    <option th:value="ASC">Croissant</option>
+                    <option th:value="DESC">Decroissant</option>
+                </select>
+            </label>
+            <label>
+                Ordre (fonction):
+                <select name="jobOrder">
+                    <option th:value="ASC">Croissant</option>
+                    <option th:value="DESC">Decroissant</option>
+                </select>
+            </label>
+        </div>
+        <button>Filtrer</button>
+    </form>
     <div class="employee-container" th:each="employee : ${employees}">
         <div th:if="${employee.image != ''}">
             <img alt="Profile" th:src="'data:image/jpeg;base64,'+${employee.image}">

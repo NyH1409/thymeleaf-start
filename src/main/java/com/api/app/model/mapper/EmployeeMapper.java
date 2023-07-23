@@ -41,6 +41,26 @@ public class EmployeeMapper {
         }
     }
 
+    public ModelEmployee toRest(Employee employee) {
+            return ModelEmployee.builder()
+              .id(employee.getId() != null ? employee.getId() : randomUUID().toString())
+              .matriculate(employee.getMatriculate())
+              .firstName(employee.getFirstName())
+              .lastName(employee.getLastName())
+              .sex(employee.getSex().toString())
+              .birthDate(employee.getBirthDate())
+              .image(null)
+              .nic(employee.getNic())
+              .emailPerso(employee.getEmailPerso())
+              .emailPro(employee.getEmailPro())
+              .phoneNumber(employee.getPhoneNumbers().get(0))
+              .category(employee.getCategory().toString())
+              .children(employee.getChildren())
+              .cnaps(employee.getCnaps())
+              .job(employee.getJob())
+              .build();
+    }
+
     private Employee.Sex sexFromString(String sex) {
         switch (sex) {
             case "H":
