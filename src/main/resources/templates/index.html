@@ -34,20 +34,26 @@
         }
 
         a {
-            display: inline-block;
-            margin-top: 20px;
-            color: #007bff;
             text-decoration: none;
-            font-size: 16px;
+            color: #f7f7f7;
         }
 
-        a:hover {
-            text-decoration: underline;
+        button {
+            background-color: #4caf50;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
         }
     </style>
 </head>
 <body>
-    <a th:href="@{'/create'}">Create New</a>
     <div class="employee-container" th:each="employee : ${employees}">
         <div th:if="${employee.image != ''}">
             <img alt="Profile" th:src="'data:image/jpeg;base64,'+${employee.image}">
@@ -58,14 +64,19 @@
        <div class="employee-info">
            <p>Nom : <span th:text="${employee.firstName}"></span></p>
            <p>Prénoms : <span th:text="${employee.lastName}"></span></spa></p>
+           <div>
+               <button style="background-color: #007bff"><a th:href="@{'/employees/'+${employee.id}}">Profil</a></button>
+           </div>
        </div>
-        <a th:href="@{'/employees/'+${employee.id}}">Show profile</a>
     </div>
-    <form th:action="${'/employees/raw'}" method="post" th:object="${modelToCSV}" enctype="multipart/form-data">
-        <label>
-            <input type="text" th:value="${modelToCSV.employees}" th:field="${modelToCSV.employees}" hidden/>
-        </label>
-        <button>Export</button>
-    </form>
+    <div style="display: flex; justify-content: space-between">
+        <button><a th:href="@{'/create'}">Nouveau</a></button>
+        <form th:action="${'/employees/raw'}" method="post" th:object="${modelToCSV}" enctype="multipart/form-data">
+            <label>
+                <input type="text" th:value="${modelToCSV.employees}" th:field="${modelToCSV.employees}" hidden/>
+            </label>
+            <button style="background-color: red">Exporter</button>
+        </form>
+    </div>
 </body>
 </html>

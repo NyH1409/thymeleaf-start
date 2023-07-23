@@ -17,6 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Base64;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 @AllArgsConstructor
@@ -46,9 +47,24 @@ public class EmployeeController {
         return "profile";
     }
 
+    @GetMapping("/employees/{id}/edit")
+    public String updateEmployee(ModelMap model, @PathVariable("id") String employeeId) {
+        Employee employee = service.getEmployee(employeeId);
+        ModelEmployee modelEmployee = new ModelEmployee();
+        model.addAttribute("employee", employee);
+        model.addAttribute("modelEmployee", modelEmployee);
+        return "edit";
+    }
+
     @PostMapping(value = "/employees")
     public RedirectView createEmployee(@ModelAttribute ModelEmployee employee) {
         service.crupdateEmployee(mapper.toDomain(employee));
+        return new RedirectView("/");
+    }
+
+    @PostMapping(value = "/employees/{id}")
+    public RedirectView updateEmployee(@PathVariable("id") String id, @ModelAttribute ModelEmployee employee) {
+        service.crupdateEmployee(mapper.toDomain(employee.toBuilder().id(id).build()));
         return new RedirectView("/");
     }
 
@@ -58,17 +74,4 @@ public class EmployeeController {
         return new RedirectView("/");
     }
 
-    @PostMapping(value = "/employee/{id}")
-    public RedirectView updateEmployee(@PathVariable("id") String employeeId,
-                                       @RequestParam("photo") MultipartFile multipartFile) {
-        Employee toUpdate = service.getEmployee(employeeId);
-        try {
-            service.crupdateEmployee(toUpdate.toBuilder()
-                    .image(Base64.getEncoder()
-                            .encodeToString(multipartFile.getBytes())).build());
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        return new RedirectView("/");
-    }
 }

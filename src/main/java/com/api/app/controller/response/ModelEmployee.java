@@ -16,6 +16,7 @@ import java.util.List;
 @ToString
 @Builder(toBuilder = true)
 public class ModelEmployee {
+    private String id;
     private String matriculate;
     private String firstName;
     private String lastName;

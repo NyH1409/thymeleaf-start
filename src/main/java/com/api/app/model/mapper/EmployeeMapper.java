@@ -3,6 +3,7 @@ package com.api.app.model.mapper;
 import com.api.app.controller.response.ModelEmployee;
 import com.api.app.model.Employee;
 import org.springframework.stereotype.Component;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.Base64;
@@ -15,10 +16,11 @@ public class EmployeeMapper {
     private final Base64.Encoder base64Encoder = Base64.getEncoder();
 
     public Employee toDomain(ModelEmployee employee) {
+        MultipartFile multipartFile = employee.getImage();
         try {
-            String encodedImage = base64Encoder.encodeToString(employee.getImage().getBytes());
+            String encodedImage = multipartFile != null ? base64Encoder.encodeToString(employee.getImage().getBytes()) : null;
             return Employee.builder()
-              .id(randomUUID().toString())
+              .id(employee.getId() != null ? employee.getId() : randomUUID().toString())
               .matriculate(employee.getMatriculate())
               .firstName(employee.getFirstName())
               .lastName(employee.getLastName())

@@ -25,10 +25,7 @@ public class EmployeeService {
     private final EmployeeRepository repository;
 
     public List<Employee> getEmployees() {
-        return repository.findAll()
-                .stream()
-                .sorted(Comparator.comparing(Employee::getMatriculate))
-                .collect(Collectors.toList());
+        return repository.findAll();
     }
 
     public Employee getEmployee(String id) {
