@@ -1,6 +1,8 @@
 package com.api.app.controller.security;
 
+import com.api.app.model.Employee;
 import com.api.app.model.exception.ForbiddenException;
+import com.api.app.service.EmployeeService;
 import com.api.app.service.handler.SessionHandler;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
@@ -18,11 +20,17 @@ import java.util.List;
 public class AuthProvider {
     private final ObjectFactory<HttpSession> sessionFactory;
     private final ObjectMapper objectMapper;
+    private final EmployeeService employeeService;
     private final SessionHandler sessionHandler = SessionHandler.getInstance();
 
     public void authenticate(Principal principal) {
-        sessionFactory.getObject().setAttribute(String.valueOf(Instant.now()), principal);
-        sessionHandler.setSessionFactory(sessionFactory);
+        Employee auth = employeeService.getEmployeeByEmail(principal.getUsername());
+        if (auth != null){
+            sessionFactory.getObject().setAttribute(String.valueOf(Instant.now()), principal);
+            sessionHandler.setSessionFactory(sessionFactory);
+        } else {
+            throw new ForbiddenException("Access denied");
+        }
     }
 
     public String isUserAuthenticated(String template) {

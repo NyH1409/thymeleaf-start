@@ -1,5 +1,6 @@
 package com.api.app.model;
 
+import com.api.app.controller.security.Principal;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -52,6 +53,8 @@ public class Employee implements Serializable {
   @Enumerated(EnumType.STRING)
   private Category category;
   private String cnaps;
+  @OneToOne(cascade = CascadeType.ALL)
+  private Principal principal;
 
   @PrePersist
   public void generateCustomMatriculate() {

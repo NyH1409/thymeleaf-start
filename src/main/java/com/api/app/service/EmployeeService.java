@@ -1,6 +1,7 @@
 package com.api.app.service;
 
 import com.api.app.model.Employee;
+import com.api.app.model.exception.ForbiddenException;
 import com.api.app.repository.EmployeeRepository;
 import com.api.app.repository.dao.EmployeeDao;
 import lombok.AllArgsConstructor;
@@ -46,7 +47,11 @@ public class EmployeeService {
 
     public Employee getEmployee(String id) {
         return repository.findById(id)
-          .orElseThrow(() -> new RuntimeException("Employee not found"));
+                .orElseThrow(() -> new RuntimeException("Employee not found"));
+    }
+
+    public Employee getEmployeeByEmail(String username) {
+        return repository.findByPrincipalUsername(username).orElseThrow(() -> new ForbiddenException("Access denied"));
     }
 
     public void crupdateEmployee(Employee employee) {
