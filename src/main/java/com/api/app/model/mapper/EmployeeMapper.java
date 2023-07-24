@@ -2,6 +2,8 @@ package com.api.app.model.mapper;
 
 import com.api.app.controller.response.ModelEmployee;
 import com.api.app.model.Employee;
+import com.api.app.model.exception.ApiException;
+import com.api.app.model.exception.BadRequestException;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -37,7 +39,7 @@ public class EmployeeMapper {
               .job(employee.getJob())
               .build();
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new ApiException(e.getMessage());
         }
     }
 
@@ -68,7 +70,7 @@ public class EmployeeMapper {
             case "F":
                 return Employee.Sex.F;
             default:
-                throw new RuntimeException("Invalid sex");
+                throw new BadRequestException("Invalid sex");
         }
     }
 
@@ -87,7 +89,7 @@ public class EmployeeMapper {
             case "OP1":
                 return Employee.Category.OP1;
             default:
-                throw new RuntimeException("Invalid category");
+                throw new BadRequestException("Invalid category");
         }
     }
 }

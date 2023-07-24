@@ -45,7 +45,7 @@ public class EmployeeDao {
         criteria.like(root.get("lastName"), '%' + lastName + '%')
       ));
     }
-    /*if (sex != null) {
+    if (sex != null) {
       predicates.add(criteria.or(
         criteria.like(criteria.lower(root.get("sex")), '%' + sex.toLowerCase() + '%'),
         criteria.like(root.get("sex"), '%' + sex + '%')
@@ -56,7 +56,7 @@ public class EmployeeDao {
         criteria.like(criteria.lower(root.get("job").get("job")), '%' + job.toLowerCase() + '%'),
         criteria.like(root.get("job").get("job"), '%' + job + '%')
       ));
-    }*/
+    }
 
     List<Order> orders = new ArrayList<>();
     if (firstNameOrder != null) {

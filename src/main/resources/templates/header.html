@@ -26,6 +26,9 @@
         <p><strong>NIF</strong> : <span th:text="${company.nif}"></span></p>
         <p><strong>STAT</strong> : <span th:text="${company.stat}"></span></p>
         <p><strong>RCS</strong> : <span th:text="${company.rcs}"></span></p>
+        <form method="post" th:action="@{/logout}">
+            <button>logout</button>
+        </form>
     </div>
 </body>
 </html>

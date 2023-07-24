@@ -62,7 +62,9 @@ public class EmployeeService {
             String headerValue = "attachment; filename=users_" + currentDateTime;
             response.setHeader(headerKey, headerValue);
             ICsvBeanWriter csvWriter = new CsvBeanWriter(response.getWriter(), CsvPreference.STANDARD_PREFERENCE);
-            List<String> heardersAndMapping = Arrays.stream(Employee.class.getDeclaredFields()).map(Field::getName).collect(Collectors.toList());
+            List<String> heardersAndMapping = Arrays.stream(Employee.class.getDeclaredFields())
+                    .map(Field::getName)
+                    .collect(Collectors.toList());
             String[] stringArray = new String[heardersAndMapping.size()];
             csvWriter.writeHeader(heardersAndMapping.toArray(stringArray));
             for (Employee employee : employees) {

@@ -2,6 +2,7 @@ package com.api.app.controller;
 
 import com.api.app.controller.response.ModelEmployee;
 import com.api.app.controller.response.ModelToCSV;
+import com.api.app.controller.security.AuthProvider;
 import com.api.app.model.Company;
 import com.api.app.model.Employee;
 import com.api.app.model.mapper.EmployeeMapper;
@@ -27,13 +28,14 @@ public class EmployeeController {
     private final EmployeeService service;
     private final EmployeeMapper mapper;
     private final CompanyService companyService;
+    private final AuthProvider provider;
 
     @GetMapping("/create")
     public String createPage(Model model) {
         model.addAttribute("employee", new ModelEmployee());
         List<Company> companies = companyService.getCompanies();
         model.addAttribute("company", companies.get(0));
-        return "create";
+        return provider.isUserAuthenticated("create");
     }
 
     @GetMapping("/")
@@ -56,7 +58,7 @@ public class EmployeeController {
         model.addAttribute("company", companies.get(0));
         model.addAttribute("employees", employees);
         model.addAttribute("modelToCSV", modelToCSV);
-        return "index";
+        return provider.isUserAuthenticated("index");
     }
 
     @GetMapping("/employees/{id}")
@@ -76,7 +78,7 @@ public class EmployeeController {
         model.addAttribute("company", companies.get(0));
         model.addAttribute("employee", employee);
         model.addAttribute("modelEmployee", modelEmployee);
-        return "edit";
+        return provider.isUserAuthenticated("edit");
     }
 
     @PostMapping(value = "/employees")
