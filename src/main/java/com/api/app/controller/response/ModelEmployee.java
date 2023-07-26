@@ -1,5 +1,6 @@
 package com.api.app.controller.response;
 
+import com.api.app.controller.security.Principal;
 import com.api.app.model.Identity;
 import com.api.app.model.Job;
 import com.api.app.model.PhoneNumber;
@@ -26,6 +27,7 @@ public class ModelEmployee {
     private PhoneNumber phoneNumber;
     private String emailPerso;
     private String emailPro;
+    private Principal principal;
     private Identity nic;
     private Job job;
     private Long children;

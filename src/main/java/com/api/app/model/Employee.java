@@ -1,23 +1,10 @@
 package com.api.app.model;
 
 import com.api.app.controller.security.Principal;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 import org.hibernate.annotations.Type;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-import javax.persistence.PrePersist;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.time.Instant;
 import java.util.List;
@@ -39,8 +26,7 @@ public class Employee implements Serializable {
   private String birthDate;
   @Type(type = "text")
   private String image;
-  @Enumerated(EnumType.STRING)
-  private Sex sex;
+  private String sex;
   @OneToMany(cascade = CascadeType.ALL)
   private List<PhoneNumber> phoneNumbers;
   private String emailPerso;
@@ -61,10 +47,6 @@ public class Employee implements Serializable {
     if (matriculate == null) {
       matriculate = String.format("MAT-EMPLOYEE-%s", Instant.now().toEpochMilli());
     }
-  }
-
-  public enum Sex {
-    H, F
   }
 
   public enum Category {

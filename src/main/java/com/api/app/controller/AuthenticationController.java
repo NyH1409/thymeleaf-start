@@ -1,7 +1,8 @@
 package com.api.app.controller;
 
-import com.api.app.controller.security.AuthProvider;
 import com.api.app.controller.security.Principal;
+import com.api.app.controller.security.Provider;
+import com.api.app.model.exception.ForbiddenException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,7 +14,7 @@ import org.springframework.web.servlet.view.RedirectView;
 @Controller
 @AllArgsConstructor
 public class AuthenticationController {
-    private final AuthProvider provider;
+    private final Provider provider;
 
     @GetMapping("login")
     public String loginPage(Model model) {
@@ -23,8 +24,12 @@ public class AuthenticationController {
 
     @PostMapping("authenticate")
     public RedirectView authenticate(@ModelAttribute Principal principal) {
-        provider.authenticate(principal);
-        return new RedirectView("/");
+        try {
+            provider.authenticate(principal);
+            return new RedirectView("/");
+        } catch (ForbiddenException e) {
+            return new RedirectView("/login");
+        }
     }
 
     @PostMapping("logout")

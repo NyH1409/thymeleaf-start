@@ -1,7 +1,6 @@
 package com.api.app.service;
 
 import com.api.app.model.Employee;
-import com.api.app.model.exception.ForbiddenException;
 import com.api.app.repository.EmployeeRepository;
 import com.api.app.repository.dao.EmployeeDao;
 import lombok.AllArgsConstructor;
@@ -33,16 +32,18 @@ public class EmployeeService {
       String lastName,
       String sex,
       String job,
+      String code,
       String firstNameOrder,
       String lastNameOrder,
       String sexOrder,
       String jobOrder,
+      String codeOrder,
       Integer page,
       Integer pageSize) {
         int pageValue = page == null ? 0 : page;
         int pageSizeValue = pageSize == null ? 10 : pageSize;
         Pageable pageable = PageRequest.of(pageValue, pageSizeValue);
-        return employeeDao.findByCriteria(firstName, lastName, sex, job, firstNameOrder, lastNameOrder, sexOrder, jobOrder, pageable);
+        return employeeDao.findByCriteria(firstName, lastName, sex, job,code, firstNameOrder, lastNameOrder, sexOrder, jobOrder,codeOrder, pageable);
     }
 
     public Employee getEmployee(String id) {
@@ -51,7 +52,7 @@ public class EmployeeService {
     }
 
     public Employee getEmployeeByEmail(String username) {
-        return repository.findByPrincipalUsername(username).orElseThrow(() -> new ForbiddenException("Access denied"));
+        return repository.findByPrincipalUsername(username).orElse(null);
     }
 
     public void crupdateEmployee(Employee employee) {

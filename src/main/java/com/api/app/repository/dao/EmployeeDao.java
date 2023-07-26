@@ -24,10 +24,12 @@ public class EmployeeDao {
     String lastName,
     String sex,
     String job,
+    String code,
     String firstNameOrder,
     String lastNameOrder,
     String sexOrder,
     String jobOrder,
+    String codeOrder,
     Pageable pageable) {
     var criteria = entityManager.getCriteriaBuilder();
     var query = criteria.createQuery(Employee.class);
@@ -47,14 +49,18 @@ public class EmployeeDao {
     }
     if (sex != null) {
       predicates.add(criteria.or(
-        criteria.like(criteria.lower(root.get("sex")), '%' + sex.toLowerCase() + '%'),
-        criteria.like(root.get("sex"), '%' + sex + '%')
-      ));
+              criteria.like(root.get("sex"), sex))
+      );
     }
     if (job != null) {
       predicates.add(criteria.or(
         criteria.like(criteria.lower(root.get("job").get("job")), '%' + job.toLowerCase() + '%'),
         criteria.like(root.get("job").get("job"), '%' + job + '%')
+      ));
+    }
+    if (code != null) {
+      predicates.add(criteria.or(
+              criteria.isMember(code, root.get("phoneNumbers").get("code"))
       ));
     }
 
@@ -70,6 +76,9 @@ public class EmployeeDao {
     }
     if (jobOrder != null) {
       orders.add(geOrder(root, criteria, jobOrder, "job"));
+    }
+    if (codeOrder != null) {
+      orders.add(geOrder(root, criteria, jobOrder, "phoneNumbers"));
     }
     Predicate[] predicatesArray = new Predicate[predicates.size()];
     query.where(predicates.toArray(predicatesArray));

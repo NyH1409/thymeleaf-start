@@ -88,14 +88,11 @@
             </label>
             <label>
                 Fonction:
-                <select name="job">
-                    <option th:value="M1">M1</option>
-                    <option th:value="M2">M2</option>
-                    <option th:value="OS1">OS1</option>
-                    <option th:value="OS2">OS2</option>
-                    <option th:value="OS3">OS3</option>
-                    <option th:value="OP1">OP1</option>
-                </select>
+                <input type="text" name="job">
+            </label>
+            <label>
+                Code pays:
+                <input type="text" name="code">
             </label>
         </div>
         <div style="display: flex; justify-content: space-between">
@@ -140,6 +137,8 @@
        <div class="employee-info">
            <p>Nom : <span th:text="${employee.firstName}"></span></p>
            <p>Prénoms : <span th:text="${employee.lastName}"></span></spa></p>
+           <p>Sexe : <span th:text="${employee.sex}"></span></spa></p>
+           <p>Fonction : <span th:text="${employee.job.job}"></span></spa></p>
            <div>
                <button style="background-color: #007bff"><a th:href="@{'/employees/'+${employee.id}}">Profil</a></button>
            </div>

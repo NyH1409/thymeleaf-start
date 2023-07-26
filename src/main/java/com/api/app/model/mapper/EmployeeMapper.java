@@ -22,13 +22,14 @@ public class EmployeeMapper {
         try {
             String encodedImage = multipartFile != null ? base64Encoder.encodeToString(employee.getImage().getBytes()) : null;
             return Employee.builder()
-              .id(employee.getId() != null ? employee.getId() : randomUUID().toString())
-              .matriculate(employee.getMatriculate())
-              .firstName(employee.getFirstName())
-              .lastName(employee.getLastName())
-              .sex(sexFromString(employee.getSex()))
-              .birthDate(employee.getBirthDate())
-              .image(encodedImage)
+                    .id(employee.getId() != null ? employee.getId() : randomUUID().toString())
+                    .matriculate(employee.getMatriculate())
+                    .firstName(employee.getFirstName())
+                    .lastName(employee.getLastName())
+                    .sex(employee.getSex())
+                    .birthDate(employee.getBirthDate())
+                    .image(encodedImage)
+                    .principal(employee.getPrincipal())
               .nic(employee.getNic())
               .emailPerso(employee.getEmailPerso())
               .emailPro(employee.getEmailPro())
@@ -61,17 +62,6 @@ public class EmployeeMapper {
               .cnaps(employee.getCnaps())
               .job(employee.getJob())
               .build();
-    }
-
-    private Employee.Sex sexFromString(String sex) {
-        switch (sex) {
-            case "H":
-                return Employee.Sex.H;
-            case "F":
-                return Employee.Sex.F;
-            default:
-                throw new BadRequestException("Invalid sex");
-        }
     }
 
     private Employee.Category categoryFromString(String category) {
