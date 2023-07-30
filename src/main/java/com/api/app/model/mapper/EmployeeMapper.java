@@ -1,6 +1,7 @@
 package com.api.app.model.mapper;
 
 import com.api.app.controller.response.ModelEmployee;
+import com.api.app.controller.security.Principal;
 import com.api.app.model.Employee;
 import com.api.app.model.exception.ApiException;
 import com.api.app.model.exception.BadRequestException;
@@ -16,11 +17,12 @@ import static java.util.UUID.randomUUID;
 @Component
 public class EmployeeMapper {
     private final Base64.Encoder base64Encoder = Base64.getEncoder();
+    private final Base64.Decoder base64Decoder = Base64.getDecoder();
 
     public Employee toDomain(ModelEmployee employee) {
         MultipartFile multipartFile = employee.getImage();
         try {
-            String encodedImage = multipartFile != null ? base64Encoder.encodeToString(employee.getImage().getBytes()) : null;
+            String encodedImage = multipartFile != null ? base64Encoder.encodeToString(employee.getImage().getBytes()) : employee.getBase64Image();
             String encodedPassword = base64Encoder.encodeToString(employee.getPrincipal().getPassword().getBytes());
             return Employee.builder()
                     .id(employee.getId() != null ? employee.getId() : randomUUID().toString())
@@ -48,6 +50,8 @@ public class EmployeeMapper {
     }
 
     public ModelEmployee toRest(Employee employee) {
+        Principal principal = employee.getPrincipal();
+        byte[] decodedPass = base64Decoder.decode(principal.getPassword());
         return ModelEmployee.builder()
                 .id(employee.getId() != null ? employee.getId() : randomUUID().toString())
                 .matriculate(employee.getMatriculate())
@@ -55,6 +59,7 @@ public class EmployeeMapper {
                 .lastName(employee.getLastName())
                 .sex(employee.getSex())
                 .birthDate(employee.getBirthDate())
+                .principal(principal)
                 .image(null)
                 .nic(employee.getNic())
                 .emailPerso(employee.getEmailPerso())

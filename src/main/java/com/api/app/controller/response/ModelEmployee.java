@@ -23,6 +23,7 @@ public class ModelEmployee {
     private String lastName;
     private String birthDate;
     private MultipartFile image;
+    private String base64Image;
     private String sex;
     private PhoneNumber phoneNumber;
     private String emailPerso;
