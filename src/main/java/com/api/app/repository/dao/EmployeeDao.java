@@ -1,16 +1,14 @@
 package com.api.app.repository.dao;
 
 import com.api.app.model.Employee;
+import com.api.app.model.PhoneNumber;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.query.QueryUtils;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.Order;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
+import javax.persistence.criteria.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,6 +32,8 @@ public class EmployeeDao {
     var criteria = entityManager.getCriteriaBuilder();
     var query = criteria.createQuery(Employee.class);
     Root<Employee> root = query.from(Employee.class);
+    Join<Employee, PhoneNumber> phoneNumbers = root.join("phoneNumbers");
+
     List<Predicate> predicates = new ArrayList<>();
     if (firstName != null) {
       predicates.add(criteria.or(
@@ -59,9 +59,7 @@ public class EmployeeDao {
       ));
     }
     if (code != null) {
-      predicates.add(criteria.or(
-              criteria.isMember(code, root.get("phoneNumbers").get("code"))
-      ));
+      predicates.add(criteria.equal(phoneNumbers.get("code"), code));
     }
 
     List<Order> orders = new ArrayList<>();
@@ -78,7 +76,7 @@ public class EmployeeDao {
       orders.add(geOrder(root, criteria, jobOrder, "job"));
     }
     if (codeOrder != null) {
-      orders.add(geOrder(root, criteria, jobOrder, "phoneNumbers"));
+      orders.add(geOrder(root, criteria, codeOrder, "phoneNumbers"));
     }
     Predicate[] predicatesArray = new Predicate[predicates.size()];
     query.where(predicates.toArray(predicatesArray));

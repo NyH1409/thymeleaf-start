@@ -21,6 +21,7 @@ public class EmployeeMapper {
         MultipartFile multipartFile = employee.getImage();
         try {
             String encodedImage = multipartFile != null ? base64Encoder.encodeToString(employee.getImage().getBytes()) : null;
+            String encodedPassword = base64Encoder.encodeToString(employee.getPrincipal().getPassword().getBytes());
             return Employee.builder()
                     .id(employee.getId() != null ? employee.getId() : randomUUID().toString())
                     .matriculate(employee.getMatriculate())
@@ -29,39 +30,41 @@ public class EmployeeMapper {
                     .sex(employee.getSex())
                     .birthDate(employee.getBirthDate())
                     .image(encodedImage)
-                    .principal(employee.getPrincipal())
-              .nic(employee.getNic())
-              .emailPerso(employee.getEmailPerso())
-              .emailPro(employee.getEmailPro())
-              .phoneNumbers(List.of(employee.getPhoneNumber()))
-              .category(categoryFromString(employee.getCategory()))
-              .children(employee.getChildren())
-              .cnaps(employee.getCnaps())
-              .job(employee.getJob())
-              .build();
+                    .principal(employee.getPrincipal().toBuilder()
+                            .password(encodedPassword)
+                            .build())
+                    .nic(employee.getNic())
+                    .emailPerso(employee.getEmailPerso())
+                    .emailPro(employee.getEmailPro())
+                    .phoneNumbers(List.of(employee.getPhoneNumber()))
+                    .category(categoryFromString(employee.getCategory()))
+                    .children(employee.getChildren())
+                    .cnaps(employee.getCnaps())
+                    .job(employee.getJob())
+                    .build();
         } catch (IOException e) {
             throw new ApiException(e.getMessage());
         }
     }
 
     public ModelEmployee toRest(Employee employee) {
-            return ModelEmployee.builder()
-              .id(employee.getId() != null ? employee.getId() : randomUUID().toString())
-              .matriculate(employee.getMatriculate())
-              .firstName(employee.getFirstName())
-              .lastName(employee.getLastName())
-              .sex(employee.getSex().toString())
-              .birthDate(employee.getBirthDate())
-              .image(null)
-              .nic(employee.getNic())
-              .emailPerso(employee.getEmailPerso())
-              .emailPro(employee.getEmailPro())
-              .phoneNumber(employee.getPhoneNumbers().get(0))
-              .category(employee.getCategory().toString())
-              .children(employee.getChildren())
-              .cnaps(employee.getCnaps())
-              .job(employee.getJob())
-              .build();
+        return ModelEmployee.builder()
+                .id(employee.getId() != null ? employee.getId() : randomUUID().toString())
+                .matriculate(employee.getMatriculate())
+                .firstName(employee.getFirstName())
+                .lastName(employee.getLastName())
+                .sex(employee.getSex())
+                .birthDate(employee.getBirthDate())
+                .image(null)
+                .nic(employee.getNic())
+                .emailPerso(employee.getEmailPerso())
+                .emailPro(employee.getEmailPro())
+                .phoneNumber(employee.getPhoneNumbers().get(0))
+                .category(employee.getCategory().toString())
+                .children(employee.getChildren())
+                .cnaps(employee.getCnaps())
+                .job(employee.getJob())
+                .build();
     }
 
     private Employee.Category categoryFromString(String category) {

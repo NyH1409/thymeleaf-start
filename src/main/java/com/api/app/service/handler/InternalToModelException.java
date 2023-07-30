@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @RestControllerAdvice
-public class InternalToRestException {
+public class InternalToModelException {
   @ExceptionHandler(BadRequestException.class)
   public ResponseEntity<?> badRequestException(BadRequestException e) {
     return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);

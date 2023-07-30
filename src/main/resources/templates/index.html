@@ -36,6 +36,12 @@
         a {
             text-decoration: none;
             color: #f7f7f7;
+            background-color: #4caf50;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
         }
 
         button {
@@ -124,7 +130,14 @@
                     <option th:value="DESC">Decroissant</option>
                 </select>
             </label>
-            <button style="background-color: #007bff">Filtrer</button>
+            <label>
+                Ordre (code):
+                <select name="codeOrder">
+                    <option th:value="ASC">Croissant</option>
+                    <option th:value="DESC">Decroissant</option>
+                </select>
+            </label>
+            <button style="background-color: #007bff; height: 40px">Filtrer</button>
         </div>
     </form>
     <div class="employee-container" th:each="employee : ${employees}">
@@ -139,13 +152,16 @@
            <p>Prénoms : <span th:text="${employee.lastName}"></span></spa></p>
            <p>Sexe : <span th:text="${employee.sex}"></span></spa></p>
            <p>Fonction : <span th:text="${employee.job.job}"></span></spa></p>
+           <p>Code : <span th:text="${employee.phoneNumbers.get(0).code}"></span></spa></p>
+           <p>Telephone : <span th:text="${employee.phoneNumbers.get(0).phoneNumber}"></span></spa></p>
+           <br>
            <div>
-               <button style="background-color: #007bff"><a th:href="@{'/employees/'+${employee.id}}">Profil</a></button>
+               <a style="background-color: #007bff" th:href="@{'/employees/'+${employee.id}}">Profil</a>
            </div>
        </div>
     </div>
     <div style="display: flex; justify-content: space-between">
-        <button><a th:href="@{'/create'}">Nouveau</a></button>
+        <a th:href="@{'/create'}">Nouveau</a>
         <form th:action="${'/employees/raw'}" method="post" th:object="${modelToCSV}" enctype="multipart/form-data">
             <label>
                 <input type="text" th:value="${modelToCSV.employees}" th:field="${modelToCSV.employees}" hidden/>

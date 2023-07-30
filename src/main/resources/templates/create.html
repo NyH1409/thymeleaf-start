@@ -38,6 +38,16 @@
             height: 100%;
         }
 
+        a {
+            text-decoration: none;
+            color: #f7f7f7;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
         button {
             background-color: #4caf50;
             color: #fff;
@@ -46,14 +56,6 @@
             border-radius: 4px;
             font-size: 16px;
             cursor: pointer;
-        }
-
-        button:hover {
-            background-color: #45a049;
-        }
-        a{
-            text-decoration: none;
-            color: #f7f7f7;
         }
     </style>
 </head>
@@ -78,9 +80,13 @@
         <input id="profile-image" type="file" accept="image/*" name="image" th:field="*{image}"/>
     </label>
     <label>
+        Code Pays:
+        <input id="code" type="text" name="code" th:field="*{phoneNumber.code}"/>
+    </label>
+    <label>
         Telephone:
         <input id="telephone" type="tel" name="telephone" th:field="*{phoneNumber.phoneNumber}"/>
-        <input id="code" type="text" name="code" th:field="*{phoneNumber.code}"/>
+    </label>
     </label>
     <label>
         Email personnel:
