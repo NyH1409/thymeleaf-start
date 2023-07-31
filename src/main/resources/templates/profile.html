@@ -77,6 +77,7 @@
             <p><strong>Prénoms :</strong> <span th:text="${employee.lastName}"></span></p>
             <p><strong>Date de naissance :</strong> <span th:text="${employee.birthDate}"></span></p>
             <p><strong>Sexe :</strong> <span th:text="${employee.sex}"></span></p>
+            <p><strong>Telephone :</strong> <span th:text="${employee.phoneNumbers.get(0).phoneNumberWithCode}"></span></p>
             <p><strong>Nombre d'enfants :</strong> <span th:text="${employee.children}"></span></p>
             <p><strong>Numero CIN :</strong> <span th:text="${employee.nic.number}"></span></p>
             <p><strong>Date de delivrance :</strong> <span th:text="${employee.nic.deliverDate}"></span></p>

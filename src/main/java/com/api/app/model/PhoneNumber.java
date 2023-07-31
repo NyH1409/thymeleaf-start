@@ -12,11 +12,14 @@ import java.io.Serializable;
 @Setter
 @EqualsAndHashCode
 @ToString
+@Builder(toBuilder = true)
 public class PhoneNumber implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String code;
-    @Column(unique = true)
+    @Column(length = 10)
     private String phoneNumber;
+    @Column(unique = true)
+    private String phoneNumberWithCode;
 }

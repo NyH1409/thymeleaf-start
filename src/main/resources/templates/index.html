@@ -152,8 +152,7 @@
            <p>Prénoms : <span th:text="${employee.lastName}"></span></spa></p>
            <p>Sexe : <span th:text="${employee.sex}"></span></spa></p>
            <p>Fonction : <span th:text="${employee.job.job}"></span></spa></p>
-           <p>Code : <span th:text="${employee.phoneNumbers.get(0).code}"></span></spa></p>
-           <p>Telephone : <span th:text="${employee.phoneNumbers.get(0).phoneNumber}"></span></spa></p>
+           <p>Telephone : <span th:text="${employee.phoneNumbers.get(0).phoneNumberWithCode}"></span></spa></p>
            <br>
            <div>
                <a style="background-color: #007bff" th:href="@{'/employees/'+${employee.id}}">Profil</a>
@@ -161,7 +160,7 @@
        </div>
     </div>
     <div style="display: flex; justify-content: space-between">
-        <a th:href="@{'/create'}">Nouveau</a>
+        <a th:href="@{'/employees/create'}">Nouveau</a>
         <form th:action="${'/employees/raw'}" method="post" th:object="${modelToCSV}" enctype="multipart/form-data">
             <label>
                 <input type="text" th:value="${modelToCSV.employees}" th:field="${modelToCSV.employees}" hidden/>

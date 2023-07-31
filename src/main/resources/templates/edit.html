@@ -65,16 +65,16 @@
 <div th:insert="header.html::header"></div>
 <form th:action="@{'/employees/'+${employee.id}}" th:object="${modelEmployee}" method="post" enctype="multipart/form-data">
     <div style="text-align: center; margin: auto">
-        <label th:if="${employee.image != null}" th:field="*{base64Image}">
-            <img alt="Profile" th:src="'data:image/jpeg;base64,'+${employee.getImage()}">
+        <label th:if="${modelEmployee.base64Image != ''}" >
+            <input type="text" name="base64Image" th:value="${modelEmployee.base64Image}" th:field="*{base64Image}"  hidden>
+            <img alt="Profile" th:src="'data:image/jpeg;base64,'+${modelEmployee.base64Image}">
         </label>
-        <label th:unless="${employee.image != null}">
+        <label th:unless="${modelEmployee.base64Image != ''}">
             Photo de profile:
             <input id="profile-image" type="file" accept="image/*" name="image" th:field="*{image}"/>
         </label>
     </div>
     <label>
-        Matricule :
         <input id="matriculate" th:placeholder="${employee.matriculate}" th:value="${modelEmployee.getMatriculate()}" type="text" name="firstName" th:field="*{matriculate}" hidden/>
     </label>
     <label>
@@ -91,6 +91,8 @@
     </label>
     <label>
         Telephone:
+        <input th:value="${modelEmployee.phoneNumber.id}" th:placeholder="${modelEmployee.getPhoneNumber().id}" id="telephoneId" type="tel" name="telephoneId" th:field="*{phoneNumber.id}" hidden/>
+        <input th:value="${modelEmployee.phoneNumber.code}" th:placeholder="${modelEmployee.getPhoneNumber().code}" id="telephoneCode" type="tel" name="telephoneCode" th:field="*{phoneNumber.code}" />
         <input th:value="${modelEmployee.phoneNumber.phoneNumber}" th:placeholder="${modelEmployee.getPhoneNumber().phoneNumber}" id="telephone" type="tel" name="telephone" th:field="*{phoneNumber.phoneNumber}"/>
     </label>
     <label>

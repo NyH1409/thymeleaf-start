@@ -11,10 +11,18 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.view.RedirectView;
 
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -24,7 +32,7 @@ public class EmployeeController {
     private final EmployeeMapper mapper;
     private final CompanyService companyService;
 
-    @GetMapping("/create")
+    @GetMapping("/employees/create")
     public String createPage(Model model) {
         model.addAttribute("employee", new ModelEmployee());
         List<Company> companies = companyService.getCompanies();
@@ -90,8 +98,14 @@ public class EmployeeController {
     }
 
     @PostMapping(value = "/employees/raw")
-    public RedirectView generateCSV(@ModelAttribute ModelToCSV modelToCSV, HttpServletResponse response) {
-        service.generateCSV(modelToCSV.getEmployees(), response);
+    public RedirectView generateCSV(@ModelAttribute ModelToCSV modelToCSV, HttpServletResponse response) throws IOException {
+        response.setContentType("text/csv");
+        DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd_HH-mm");
+        String currentDateTime = dateFormatter.format(new Date());
+        String headerKey = "Content-Disposition";
+        String headerValue = "attachment; filename=users_" + currentDateTime;
+        response.setHeader(headerKey, headerValue);
+        service.generateCSV(modelToCSV.getEmployees(), response.getWriter());
         return new RedirectView("/");
     }
 

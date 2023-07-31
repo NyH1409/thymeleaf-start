@@ -81,11 +81,11 @@
     </label>
     <label>
         Code Pays:
-        <input id="code" type="text" name="code" th:field="*{phoneNumber.code}"/>
+        <input id="code" type="text" name="code" th:field="*{phoneNumber.code}" placeholder="+261"/>
     </label>
     <label>
         Telephone:
-        <input id="telephone" type="tel" name="telephone" th:field="*{phoneNumber.phoneNumber}"/>
+        <input id="telephone" type="tel" name="telephone" th:field="*{phoneNumber.phoneNumber}" placeholder="0326063616"/>
     </label>
     </label>
     <label>
@@ -98,11 +98,11 @@
     </label>
     <label>
         Username:
-        <input id="username" type="text" name="username" th:field="*{principal.username}"/>
+        <input id="username" type="text" name="username" th:field="*{principal.username}" required/>
     </label>
     <label>
         Password:
-        <input id="password" type="password" name="password" th:field="*{principal.password}"/>
+        <input id="password" type="password" name="password" th:field="*{principal.password}" required/>
     </label>
     <label>
         Nombre d'enfants:

@@ -58,7 +58,8 @@ public class EmployeeDao {
         criteria.like(root.get("job").get("job"), '%' + job + '%')
       ));
     }
-    if (code != null) {
+
+    if (code != null && !code.equals("")) {
       predicates.add(criteria.equal(phoneNumbers.get("code"), code));
     }
 
@@ -75,9 +76,9 @@ public class EmployeeDao {
     if (jobOrder != null) {
       orders.add(geOrder(root, criteria, jobOrder, "job"));
     }
-    if (codeOrder != null) {
+    /*if (codeOrder != null) {
       orders.add(geOrder(root, criteria, codeOrder, "phoneNumbers"));
-    }
+    }*/
     Predicate[] predicatesArray = new Predicate[predicates.size()];
     query.where(predicates.toArray(predicatesArray));
     if (orders.isEmpty()) {

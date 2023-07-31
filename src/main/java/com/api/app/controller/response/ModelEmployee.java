@@ -4,10 +4,14 @@ import com.api.app.controller.security.Principal;
 import com.api.app.model.Identity;
 import com.api.app.model.Job;
 import com.api.app.model.PhoneNumber;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -26,6 +30,7 @@ public class ModelEmployee {
     private String base64Image;
     private String sex;
     private PhoneNumber phoneNumber;
+    private String phoneWithCode;
     private String emailPerso;
     private String emailPro;
     private Principal principal;

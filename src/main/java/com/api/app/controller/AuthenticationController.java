@@ -14,27 +14,27 @@ import org.springframework.web.servlet.view.RedirectView;
 @Controller
 @AllArgsConstructor
 public class AuthenticationController {
-    private final Provider provider;
+  private final Provider provider;
 
-    @GetMapping("login")
-    public String loginPage(Model model) {
-        model.addAttribute("principal", new Principal());
-        return "login";
-    }
+  @GetMapping("login")
+  public String loginPage(Model model) {
+    model.addAttribute("principal", new Principal());
+    return "login";
+  }
 
-    @PostMapping("authenticate")
-    public RedirectView authenticate(@ModelAttribute Principal principal) {
-        try {
-            provider.authenticate(principal);
-            return new RedirectView("/");
-        } catch (ForbiddenException e) {
-            return new RedirectView("/login");
-        }
+  @PostMapping("authenticate")
+  public RedirectView authenticate(@ModelAttribute Principal principal) {
+    try {
+      provider.authenticate(principal);
+      return new RedirectView("/");
+    } catch (ForbiddenException e) {
+      return new RedirectView("/login");
     }
+  }
 
-    @PostMapping("logout")
-    public RedirectView logout() {
-        provider.clearSession();
-        return new RedirectView("/login");
-    }
+  @PostMapping("logout")
+  public RedirectView logout() {
+    provider.clearSession();
+    return new RedirectView("/login");
+  }
 }
