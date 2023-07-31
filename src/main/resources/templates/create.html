@@ -81,11 +81,11 @@
     </label>
     <label>
         Code Pays:
-        <input id="code" type="text" name="code" th:field="*{phoneNumber.code}" placeholder="+261"/>
+        <input id="code" type="text" name="code" th:field="*{phoneNumber.code}" placeholder="+261" required/>
     </label>
     <label>
         Telephone:
-        <input id="telephone" type="tel" name="telephone" th:field="*{phoneNumber.phoneNumber}" placeholder="0326063616"/>
+        <input id="telephone" type="tel" name="telephone" th:field="*{phoneNumber.phoneNumber}" placeholder="0326063616" required/>
     </label>
     </label>
     <label>
@@ -148,6 +148,14 @@
             <option th:value="Developpeur">Developpeur</option>
             <option th:value="Directeur">Directeur</option>
         </select>
+    </label>
+    <label>
+        Date de prise de poste:
+        <input id="entrancedate" type="date" name="entrancedate" th:field="*{entrance}"/>
+    </label>
+    <label>
+        Date de demission:
+        <input id="leavingdate" type="date" name="leavingdate" th:field="*{left}"/>
     </label>
     <div style="display: flex; justify-content: space-between">
         <button id="create-button">Créer</button>

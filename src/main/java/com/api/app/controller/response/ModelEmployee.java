@@ -39,4 +39,6 @@ public class ModelEmployee {
     private Long children;
     private String category;
     private String cnaps;
+    private String entrance;
+    private String left;
 }

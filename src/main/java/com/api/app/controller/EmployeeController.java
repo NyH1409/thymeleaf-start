@@ -55,6 +55,8 @@ public class EmployeeController {
                                @RequestParam(value = "sex", required = false) String sex,
                                @RequestParam(value = "job", required = false) String job,
                                @RequestParam(value = "code", required = false) String code,
+                               @RequestParam(value = "entrance", required = false) String entranceDatetime,
+                               @RequestParam(value = "leaving", required = false) String leavingDatetime,
                                @RequestParam(value = "firstNameOrder", required = false) String firstNameOrder,
                                @RequestParam(value = "lastNameOrder", required = false) String lastNameOrder,
                                @RequestParam(value = "sexOrder", required = false) String sexOrder,
@@ -66,7 +68,7 @@ public class EmployeeController {
         try {
             provider.isAuthenticated();
             List<Employee> employees = service.getEmployees(
-              fistName, lastName, sex, job, code, firstNameOrder, lastNameOrder, sexOrder, jobOrder, codeOrder, page, pageSize);
+              fistName, lastName, sex, job, code, entranceDatetime, leavingDatetime, firstNameOrder, lastNameOrder, sexOrder, jobOrder, codeOrder, page, pageSize);
             List<Company> companies = companyService.getCompanies();
             ModelToCSV modelToCSV = new ModelToCSV(employees);
             model.addAttribute("company", companies.get(0));

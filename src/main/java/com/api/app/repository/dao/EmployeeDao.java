@@ -8,7 +8,11 @@ import org.springframework.data.jpa.repository.query.QueryUtils;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
-import javax.persistence.criteria.*;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.Join;
+import javax.persistence.criteria.Order;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,6 +27,8 @@ public class EmployeeDao {
     String sex,
     String job,
     String code,
+    String entrance,
+    String leavingDate,
     String firstNameOrder,
     String lastNameOrder,
     String sexOrder,
@@ -61,6 +67,11 @@ public class EmployeeDao {
 
     if (code != null && !code.equals("")) {
       predicates.add(criteria.equal(phoneNumbers.get("code"), code));
+    }
+
+    if (entrance != null && !entrance.equals("") && !leavingDate.equals("")) {
+      predicates.add(criteria.and(criteria.greaterThanOrEqualTo(root.get("entranceDate"), entrance),
+        criteria.lessThanOrEqualTo(root.get("leavingDate"), leavingDate)));
     }
 
     List<Order> orders = new ArrayList<>();

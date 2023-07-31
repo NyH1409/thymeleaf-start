@@ -1,12 +1,26 @@
 package com.api.app.model;
 
 import com.api.app.controller.security.Principal;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 import org.hibernate.annotations.Type;
 
-import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.PrePersist;
 import java.io.Serializable;
 import java.time.Instant;
+import java.time.LocalDate;
 import java.util.List;
 
 @Entity
@@ -41,6 +55,8 @@ public class Employee implements Serializable {
   private String cnaps;
   @OneToOne(cascade = CascadeType.ALL)
   private Principal principal;
+  private String entranceDate;
+  private String leavingDate;
 
   @PrePersist
   public void generateCustomMatriculate() {

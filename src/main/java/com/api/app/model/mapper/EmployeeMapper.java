@@ -22,10 +22,10 @@ public class EmployeeMapper {
 
     public Employee toDomain(ModelEmployee employee) {
         PhoneNumber phoneNumber = employee.getPhoneNumber();
-        String phoneWithCode = phoneNumber
-          .getCode() + " " +phoneNumber
+        String phoneWithCode = phoneNumber != null ? phoneNumber
+          .getCode() + " " + phoneNumber
           .getPhoneNumber()
-          .substring(1);
+          .substring(1) : null;
 
         MultipartFile multipartFile = employee.getImage();
         try {
@@ -45,6 +45,8 @@ public class EmployeeMapper {
               .nic(employee.getNic())
               .emailPerso(employee.getEmailPerso())
               .emailPro(employee.getEmailPro())
+              .entranceDate(employee.getEntrance())
+              .leavingDate(employee.getLeft())
               .phoneNumbers(List.of(phoneNumber.toBuilder()
                 .phoneNumberWithCode(phoneWithCode)
                 .build()))
@@ -73,6 +75,8 @@ public class EmployeeMapper {
           .nic(employee.getNic())
           .emailPerso(employee.getEmailPerso())
           .emailPro(employee.getEmailPro())
+          .entrance(employee.getEntranceDate())
+          .left(employee.getLeavingDate())
           .phoneNumber(employee.getPhoneNumbers().get(0))
           .phoneWithCode(employee.getPhoneNumbers().get(0).getPhoneNumberWithCode())
           .category(employee.getCategory().toString())

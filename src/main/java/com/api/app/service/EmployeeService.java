@@ -31,6 +31,8 @@ public class EmployeeService {
       String sex,
       String job,
       String code,
+      String entranceDatetime,
+      String leavingDatetime,
       String firstNameOrder,
       String lastNameOrder,
       String sexOrder,
@@ -41,7 +43,20 @@ public class EmployeeService {
         int pageValue = page == null ? 0 : page;
         int pageSizeValue = pageSize == null ? 10 : pageSize;
         Pageable pageable = PageRequest.of(pageValue, pageSizeValue);
-        return employeeDao.findByCriteria(firstName, lastName, sex, job,code, firstNameOrder, lastNameOrder, sexOrder, jobOrder,codeOrder, pageable);
+        return employeeDao.findByCriteria(
+          firstName,
+          lastName,
+          sex,
+          job,
+          code,
+          entranceDatetime,
+          leavingDatetime,
+          firstNameOrder,
+          lastNameOrder,
+          sexOrder,
+          jobOrder,
+          codeOrder,
+          pageable);
     }
 
     public Employee getEmployee(String id) {
