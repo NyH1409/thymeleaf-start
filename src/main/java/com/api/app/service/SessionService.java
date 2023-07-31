@@ -25,6 +25,7 @@ public class SessionService {
     }
 
     public void deleteSession(String id) {
+        System.out.println(id);
         repository.deleteById(id);
     }
 }

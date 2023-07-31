@@ -2,8 +2,10 @@ package com.api.app.controller;
 
 import com.api.app.controller.response.ModelEmployee;
 import com.api.app.controller.response.ModelToCSV;
+import com.api.app.controller.security.Provider;
 import com.api.app.model.Company;
 import com.api.app.model.Employee;
+import com.api.app.model.exception.ForbiddenException;
 import com.api.app.model.mapper.EmployeeMapper;
 import com.api.app.service.CompanyService;
 import com.api.app.service.EmployeeService;
@@ -31,13 +33,19 @@ public class EmployeeController {
     private final EmployeeService service;
     private final EmployeeMapper mapper;
     private final CompanyService companyService;
+    private final Provider provider;
 
     @GetMapping("/employees/create")
     public String createPage(Model model) {
-        model.addAttribute("employee", new ModelEmployee());
-        List<Company> companies = companyService.getCompanies();
-        model.addAttribute("company", companies.get(0));
-        return "create";
+        try {
+            provider.isAuthenticated();
+            model.addAttribute("employee", new ModelEmployee());
+            List<Company> companies = companyService.getCompanies();
+            model.addAttribute("company", companies.get(0));
+            return "create";
+        } catch (ForbiddenException e) {
+            return "redirect:/login";
+        }
     }
 
     @GetMapping("/")
@@ -55,58 +63,88 @@ public class EmployeeController {
                                @RequestParam(value = "page", required = false) Integer page,
                                @RequestParam(value = "pageSize", required = false) Integer pageSize
     ) {
-        List<Employee> employees = service.getEmployees(
-                fistName, lastName, sex, job, code, firstNameOrder, lastNameOrder, sexOrder, jobOrder, codeOrder, page, pageSize);
-        List<Company> companies = companyService.getCompanies();
-        ModelToCSV modelToCSV = new ModelToCSV(employees);
-        model.addAttribute("company", companies.get(0));
-        model.addAttribute("employees", employees);
-        model.addAttribute("modelToCSV", modelToCSV);
-        return "index";
+        try {
+            provider.isAuthenticated();
+            List<Employee> employees = service.getEmployees(
+              fistName, lastName, sex, job, code, firstNameOrder, lastNameOrder, sexOrder, jobOrder, codeOrder, page, pageSize);
+            List<Company> companies = companyService.getCompanies();
+            ModelToCSV modelToCSV = new ModelToCSV(employees);
+            model.addAttribute("company", companies.get(0));
+            model.addAttribute("employees", employees);
+            model.addAttribute("modelToCSV", modelToCSV);
+            return "index";
+        } catch (ForbiddenException e) {
+            return "redirect:/login";
+        }
     }
 
     @GetMapping("/employees/{id}")
     public String getEmployee(ModelMap model, @PathVariable("id") String employeeId) {
-        Employee employee = service.getEmployee(employeeId);
-        List<Company> companies = companyService.getCompanies();
-        model.addAttribute("company", companies.get(0));
-        model.addAttribute("employee", employee);
-        return "profile";
+        try {
+            provider.isAuthenticated();
+            Employee employee = service.getEmployee(employeeId);
+            List<Company> companies = companyService.getCompanies();
+            model.addAttribute("company", companies.get(0));
+            model.addAttribute("employee", employee);
+            return "profile";
+        } catch (ForbiddenException e) {
+            return "redirect:/login";
+        }
     }
 
     @GetMapping("/employees/{id}/edit")
     public String updateEmployee(ModelMap model, @PathVariable("id") String employeeId) {
-        Employee employee = service.getEmployee(employeeId);
-        ModelEmployee modelEmployee = mapper.toRest(employee);
-        List<Company> companies = companyService.getCompanies();
-        model.addAttribute("company", companies.get(0));
-        model.addAttribute("employee", employee);
-        model.addAttribute("modelEmployee", modelEmployee);
-        return "edit";
+        try {
+            provider.isAuthenticated();
+            Employee employee = service.getEmployee(employeeId);
+            ModelEmployee modelEmployee = mapper.toRest(employee);
+            List<Company> companies = companyService.getCompanies();
+            model.addAttribute("company", companies.get(0));
+            model.addAttribute("employee", employee);
+            model.addAttribute("modelEmployee", modelEmployee);
+            return "edit";
+        } catch (ForbiddenException e) {
+            return "redirect:/login";
+        }
     }
 
     @PostMapping(value = "/employees")
     public RedirectView createEmployee(@ModelAttribute ModelEmployee employee) {
-        service.crupdateEmployee(mapper.toDomain(employee));
-        return new RedirectView("/");
+        try {
+            provider.isAuthenticated();
+            service.crupdateEmployee(mapper.toDomain(employee));
+            return new RedirectView("/");
+        } catch (ForbiddenException e) {
+            return new RedirectView("/login");
+        }
     }
 
     @PostMapping(value = "/employees/{id}")
     public RedirectView updateEmployee(@PathVariable("id") String id, @ModelAttribute ModelEmployee employee) {
-        service.crupdateEmployee(mapper.toDomain(employee.toBuilder().id(id).build()));
-        return new RedirectView("/");
+        try {
+            provider.isAuthenticated();
+            service.crupdateEmployee(mapper.toDomain(employee.toBuilder().id(id).build()));
+            return new RedirectView("/");
+        } catch (ForbiddenException e) {
+            return new RedirectView("/login");
+        }
     }
 
     @PostMapping(value = "/employees/raw")
     public RedirectView generateCSV(@ModelAttribute ModelToCSV modelToCSV, HttpServletResponse response) throws IOException {
-        response.setContentType("text/csv");
-        DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd_HH-mm");
-        String currentDateTime = dateFormatter.format(new Date());
-        String headerKey = "Content-Disposition";
-        String headerValue = "attachment; filename=users_" + currentDateTime;
-        response.setHeader(headerKey, headerValue);
-        service.generateCSV(modelToCSV.getEmployees(), response.getWriter());
-        return new RedirectView("/");
+        try {
+            provider.isAuthenticated();
+            response.setContentType("text/csv");
+            DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd_HH-mm");
+            String currentDateTime = dateFormatter.format(new Date());
+            String headerKey = "Content-Disposition";
+            String headerValue = "attachment; filename=users_" + currentDateTime;
+            response.setHeader(headerKey, headerValue);
+            service.generateCSV(modelToCSV.getEmployees(), response.getWriter());
+            return new RedirectView("/");
+        } catch (ForbiddenException e) {
+            return new RedirectView("/login");
+        }
     }
 
 }

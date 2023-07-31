@@ -8,7 +8,6 @@ import com.api.app.service.SessionService;
 import com.api.app.service.handler.SessionHandler;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.ObjectFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpSession;
@@ -22,11 +21,8 @@ import static java.util.UUID.randomUUID;
 @AllArgsConstructor
 public class Provider {
     private final Base64.Decoder decoder = Base64.getDecoder();
-    @Autowired
     private ObjectFactory<HttpSession> sessionFactory;
-    @Autowired
     private EmployeeService employeeService;
-    @Autowired
     private SessionService sessionService;
     private final SessionHandler sessionHandler = SessionHandler.getInstance();
 
@@ -45,8 +41,23 @@ public class Provider {
     public void clearSession() {
         Iterator<String> iterator = sessionHandler.getSessionFactory().getAttributeNames().asIterator();
         if (iterator.hasNext()) {
-            sessionHandler.getSessionFactory().removeAttribute(iterator.next());
-            sessionService.deleteSession(iterator.next());
+            String sessionId = iterator.next();
+            sessionHandler.getSessionFactory().removeAttribute(sessionId);
+            sessionService.deleteSession(sessionId);
         }
+    }
+
+    public void isAuthenticated() {
+        sessionHandler.setSessionFactory(sessionFactory);
+        HttpSession currentSession = sessionHandler.getSessionFactory();
+        Iterator<String> attributes = currentSession.getAttributeNames().asIterator();
+        if (attributes.hasNext()) {
+            Session session = sessionService.getSessionById(attributes.next());
+            if (session != null) {
+                return;
+            }
+            throw new ForbiddenException("Access denied");
+        }
+        throw new ForbiddenException("Access denied");
     }
 }
