@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 import java.util.List;
 
@@ -70,7 +71,9 @@ public class EmployeeMapper {
           .lastName(employee.getLastName())
           .sex(employee.getSex())
           .birthDate(employee.getBirthDate())
-          .principal(principal)
+          .principal(principal.toBuilder()
+            .password(new String(decodedPass, StandardCharsets.UTF_8))
+            .build())
           .base64Image(employee.getImage())
           .nic(employee.getNic())
           .emailPerso(employee.getEmailPerso())

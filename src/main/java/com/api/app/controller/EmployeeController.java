@@ -38,7 +38,6 @@ public class EmployeeController {
     @GetMapping("/employees/create")
     public String createPage(Model model) {
         try {
-            provider.isAuthenticated();
             model.addAttribute("employee", new ModelEmployee());
             List<Company> companies = companyService.getCompanies();
             model.addAttribute("company", companies.get(0));
@@ -113,7 +112,7 @@ public class EmployeeController {
     @PostMapping(value = "/employees")
     public RedirectView createEmployee(@ModelAttribute ModelEmployee employee) {
         try {
-            provider.isAuthenticated();
+            //provider.isAuthenticated();
             service.crupdateEmployee(mapper.toDomain(employee));
             return new RedirectView("/");
         } catch (ForbiddenException e) {

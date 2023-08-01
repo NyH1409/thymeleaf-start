@@ -48,6 +48,17 @@
         button:focus {
             background-color: #45a049;
         }
+
+        a {
+            text-decoration: none;
+            color: #f7f7f7;
+            background-color: blue;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
@@ -63,6 +74,7 @@
         <input type="password" name="password" th:field="*{password}"/>
     </label>
     <button><i class="fas fa-sign-in-alt"></i> Se connecter</button>
+    <a th:href="@{/employees/create}"><i class="fas fa-sign-in-alt"></i> Nouveau</a>
 </form>
 </body>
 </html>

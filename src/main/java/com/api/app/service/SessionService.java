@@ -5,6 +5,7 @@ import com.api.app.repository.SessionRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
 import java.util.List;
 
 @Service
@@ -25,7 +26,11 @@ public class SessionService {
     }
 
     public void deleteSession(String id) {
-        System.out.println(id);
         repository.deleteById(id);
+    }
+
+    public static boolean isValid(Session session) {
+        long now = Instant.now().toEpochMilli();
+        return now <= session.getCreationDatetime().toEpochMilli() + session.getExpiresIn();
     }
 }

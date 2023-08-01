@@ -9,11 +9,10 @@ import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import java.io.Serializable;
+import java.time.Instant;
 
 @Entity
 @AllArgsConstructor
@@ -27,4 +26,6 @@ public class Session implements Serializable {
     private String id;
     @OneToOne
     private Principal principal;
+    private Instant creationDatetime;
+    private long expiresIn;
 }

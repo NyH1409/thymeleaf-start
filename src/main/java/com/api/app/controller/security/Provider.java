@@ -11,10 +11,12 @@ import org.springframework.beans.factory.ObjectFactory;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpSession;
+import java.time.Instant;
 import java.util.Arrays;
 import java.util.Base64;
 import java.util.Iterator;
 
+import static com.api.app.service.SessionService.isValid;
 import static java.util.UUID.randomUUID;
 
 @Component
@@ -30,7 +32,7 @@ public class Provider {
         Employee auth = employeeService.getEmployeeByEmail(principal.getUsername());
         Principal authPrincipal = auth != null ? auth.getPrincipal() : null;
         if (authPrincipal != null && Arrays.equals(decoder.decode(authPrincipal.getPassword()), principal.getPassword().getBytes())) {
-            Session currentSession = sessionService.save(new Session(randomUUID().toString(), authPrincipal));
+            Session currentSession = sessionService.save(new Session(randomUUID().toString(), authPrincipal, Instant.now(), 60000 * 5));
             sessionFactory.getObject().setAttribute(currentSession.getId(), currentSession.getId());
             sessionHandler.setSessionFactory(sessionFactory);
         } else {
@@ -54,7 +56,11 @@ public class Provider {
         if (attributes.hasNext()) {
             Session session = sessionService.getSessionById(attributes.next());
             if (session != null) {
-                return;
+                if (isValid(session)) {
+                    return;
+                } else {
+                    sessionService.deleteSession(session.getId());
+                }
             }
             throw new ForbiddenException("Access denied");
         }
