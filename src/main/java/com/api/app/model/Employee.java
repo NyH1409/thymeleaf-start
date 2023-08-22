@@ -1,6 +1,5 @@
 package com.api.app.model;
 
-import com.api.app.controller.security.Principal;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -20,7 +19,6 @@ import javax.persistence.OneToOne;
 import javax.persistence.PrePersist;
 import java.io.Serializable;
 import java.time.Instant;
-import java.time.LocalDate;
 import java.util.List;
 
 @Entity

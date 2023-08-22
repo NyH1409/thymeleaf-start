@@ -1,6 +1,6 @@
 package com.api.app.controller;
 
-import com.api.app.controller.security.Principal;
+import com.api.app.model.Principal;
 import com.api.app.controller.security.Provider;
 import com.api.app.model.exception.ForbiddenException;
 import lombok.AllArgsConstructor;

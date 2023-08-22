@@ -1,7 +1,7 @@
 package com.api.app.model.mapper;
 
 import com.api.app.controller.response.ModelEmployee;
-import com.api.app.controller.security.Principal;
+import com.api.app.model.Principal;
 import com.api.app.model.Employee;
 import com.api.app.model.PhoneNumber;
 import com.api.app.model.exception.ApiException;

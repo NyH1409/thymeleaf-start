@@ -1,6 +1,5 @@
 package com.api.app.model;
 
-import com.api.app.controller.security.Principal;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
