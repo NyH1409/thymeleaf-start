@@ -2,7 +2,7 @@ package com.api.app.service;
 
 import com.api.app.model.Employee;
 import com.api.app.model.exception.ApiException;
-import com.api.app.repository.EmployeeRepository;
+import com.api.app.repository.Repository;
 import com.api.app.repository.dao.EmployeeDao;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.PageRequest;
@@ -22,8 +22,8 @@ import java.util.stream.Collectors;
 @Service
 @AllArgsConstructor
 public class EmployeeService {
-    private final EmployeeRepository repository;
     private final EmployeeDao employeeDao;
+    private final Repository mainRepository;
 
     public List<Employee> getEmployees(
       String firstName,
@@ -43,33 +43,20 @@ public class EmployeeService {
         int pageValue = page == null ? 0 : page;
         int pageSizeValue = pageSize == null ? 10 : pageSize;
         Pageable pageable = PageRequest.of(pageValue, pageSizeValue);
-        return employeeDao.findByCriteria(
-          firstName,
-          lastName,
-          sex,
-          job,
-          code,
-          entranceDatetime,
-          leavingDatetime,
-          firstNameOrder,
-          lastNameOrder,
-          sexOrder,
-          jobOrder,
-          codeOrder,
-          pageable);
+        return employeeDao.findByCriteria(firstName, lastName, sex, job, code, entranceDatetime, leavingDatetime, firstNameOrder,
+                lastNameOrder, sexOrder, jobOrder, codeOrder, pageable);
     }
 
     public Employee getEmployee(String id) {
-        return repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Employee not found"));
+        return mainRepository.getEmployeeById(id);
     }
 
     public Employee getEmployeeByEmail(String username) {
-        return repository.findByPrincipalUsername(username).orElse(null);
+        return mainRepository.findByPrincipalUsername(username).orElse(null);
     }
 
-    public void crupdateEmployee(Employee employee) {
-        repository.save(employee);
+    public Employee crupdateEmployee(Employee employee) {
+        return mainRepository.save(employee);
     }
 
     public void generateCSV(List<Employee> employees, PrintWriter printWriter) {

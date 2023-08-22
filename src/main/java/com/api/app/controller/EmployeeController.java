@@ -94,7 +94,7 @@ public class EmployeeController {
         try {
             provider.isAuthenticated();
             Employee employee = service.getEmployee(employeeId);
-            ModelEmployee modelEmployee = mapper.toRest(employee);
+            ModelEmployee modelEmployee = mapper.toView(employee);
             List<Company> companies = companyService.getCompanies();
             model.addAttribute("company", companies.get(0));
             model.addAttribute("employee", employee);

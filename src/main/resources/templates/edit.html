@@ -116,8 +116,7 @@
         <input id="children" th:placeholder="${employee.children}" th:value="${modelEmployee.getChildren()}" type="number" name="children" th:field="*{children}"/>
     </label>
     <label>
-        Numero CNAPS:
-        <input id="cnaps" th:placeholder="${employee.cnaps}" type="text" th:value="${modelEmployee.getCnaps()}" name="cnaps" th:field="*{cnaps}"/>
+        <input hidden="hidden" id="cnaps" th:placeholder="${employee.getCnaps}" type="text" th:value="${modelEmployee.getCnaps()}" name="cnaps" th:field="*{cnaps}"/>
     </label>
     <label>
         Sexe:
@@ -155,6 +154,7 @@
             <option th:value="Developpeur">Developpeur</option>
             <option th:value="Directeur">Directeur</option>
         </select>
+        <input type="text" th:field="*{job.id}" th:value="${modelEmployee.job.id}" >
     </label>
     <div style="display: flex; justify-content: space-between">
         <button id="create-button">Sauvegarder</button>

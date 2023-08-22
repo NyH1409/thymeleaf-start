@@ -23,7 +23,7 @@
 
         input[type="text"],
         input[type="password"] {
-            width: 100%;
+            width: 90%;
             padding: 8px;
             margin-bottom: 15px;
             border: 1px solid #ccc;
@@ -37,6 +37,8 @@
             border: none;
             border-radius: 5px;
             cursor: pointer;
+            width: 100%;
+            text-align: center;
         }
 
         i {
@@ -74,7 +76,6 @@
         <input type="password" name="password" th:field="*{password}"/>
     </label>
     <button><i class="fas fa-sign-in-alt"></i> Se connecter</button>
-    <a th:href="@{/employees/create}"><i class="fas fa-sign-in-alt"></i> Nouveau</a>
 </form>
 </body>
 </html>

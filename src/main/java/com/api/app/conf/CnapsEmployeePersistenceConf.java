@@ -20,7 +20,7 @@ import java.util.HashMap;
 @Configuration
 @PropertySource({"classpath:cnaps.properties"})
 @EnableJpaRepositories(
-    basePackages = "com.api.app.cnaps.model",
+    basePackages = "com.api.app.cnaps.repository",
     entityManagerFactoryRef = "cnapsEmployeeEntityManager",
     transactionManagerRef = "cnapsEmployeeTransactionManager"
 )

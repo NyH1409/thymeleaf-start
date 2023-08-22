@@ -14,6 +14,7 @@ import java.time.Instant;
 @NoArgsConstructor
 @EqualsAndHashCode
 @ToString
+@Builder(toBuilder = true)
 public class CnapsEmployee implements Serializable {
     @Id
     private String id;
@@ -31,15 +32,13 @@ public class CnapsEmployee implements Serializable {
     private com.api.app.model.Employee.Category category;
     private String entranceDate;
     private String leavingDate;
+    private String endToEndId;
+    private String cnaps;
 
     @PrePersist
     public void generateCustomMatriculate() {
         if (matriculate == null) {
             matriculate = String.format("MAT-CNAPS-EMPLOYEE-%s", Instant.now().toEpochMilli());
         }
-    }
-
-    public enum Category {
-        M1, M2, OS1, OS2, OS3, OP1
     }
 }

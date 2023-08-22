@@ -72,7 +72,7 @@ public class EmployeeDao {
     }
 
     if (entrance != null && !entrance.equals("") && !leavingDate.equals("")) {
-      predicates.add(criteria.and(criteria.greaterThanOrEqualTo(root.get("entranceDate"), entrance),
+      predicates.add(criteria.or(criteria.greaterThanOrEqualTo(root.get("entranceDate"), entrance),
         criteria.lessThanOrEqualTo(root.get("leavingDate"), leavingDate)));
     }
 
