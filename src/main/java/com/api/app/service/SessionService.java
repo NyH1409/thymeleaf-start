@@ -1,7 +1,7 @@
 package com.api.app.service;
 
 import com.api.app.model.Session;
-import com.api.app.repository.SessionRepository;
+import com.api.app.repository.jpa.SessionRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
